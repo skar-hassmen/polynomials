@@ -6,10 +6,6 @@
 %}
 
 %%
-\$[[:alpha:]]+ {
-  printf("%s", yytext);
-}
-
 [[:digit:]]* {
    yylval.terms = (struct term_struct*)malloc(sizeof(struct term_struct));
    yylval.terms->coefficient = atoi(yytext);
@@ -24,11 +20,6 @@
    yylval.terms->symbol = yytext[0];
    yylval.terms->degree = 1;
    return SYMBOL;
-}
-
-\^[-]? {
-  yylval.sign_degree = yytext[1];
-  return SIGN_DEGREE;
 }
 
 [\n] return 0;

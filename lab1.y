@@ -170,86 +170,208 @@
 
 
 %%
+
    result: A {
       int sizeOfArray = getSizeOfArrayStruct($<terms>$);
       printResult($<terms>$, sizeOfArray);
       return 0;
    };
 
-   A:
-      A'+'A {
-            int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
-            int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
-            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
-         } |
-
-      A'-'A {
+   A: 
+      A '+' A {
+         int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+         int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+         $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+      } |
+      A '-' A {
          int sizeOfArray1 = getSizeOfArrayStruct($<terms>1); // 3x^-3+2x^6+4x^3+5x^3-2x^3-2x^-3
          int sizeOfArray2 = getSizeOfArrayStruct($<terms>3); // 4x^2*4x   4x^2*4x^0   4x^2+3x*7x^3+14x^4  (4x^2+3x*7x^3+14x^4)*0
          $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
          $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
       } |
-
-      A'*'A {
+      A '*' A {
          int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
          int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
          $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
       } |
-
-      '-'A {
+      '-' A {
          int sizeOfArray = getSizeOfArrayStruct($<terms>2);
          $<terms>2 = changeSign(sizeOfArray, $<terms>2);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray));
-
       } |
-
-      '('A')' {
+      '(' A ')' '^' C {
+         int sizeOfArray = getSizeOfArrayStruct($<terms>2);
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
+         $<terms[0].degree>$ = $<terms[0].coefficient>5;
+         int multi = $<terms[0].coefficient>$;
+         for (int i = 1; i < $<terms[0].degree>$; i++) {
+            multi *= $<terms[0].coefficient>$;
+         }
+         $<terms[0].coefficient>$ = multi;
+      } |
+      '(' A ')' {
          int sizeOfArray = getSizeOfArrayStruct($<terms>2);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
       } |
       one_term;
-
-   one_term:
-      NUMBER symbol_with_degree {
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * 2);
-         memcpy(&$<terms[0]>$, $<terms>2, sizeof(struct term_struct));
-         $<terms[0].coefficient>$ = $<terms->coefficient>1;
-         
-         $<terms[1].symbol>$ = '\0';
-      }  |
-
-      symbol_with_degree {
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * 2);
-         memcpy(&$<terms[0]>$, $<terms>1, sizeof(struct term_struct)); 
-
-         $<terms[1].symbol>$ = '\0';
-      };
-
-   symbol_with_degree:
-      SYMBOL SIGN_DEGREE NUMBER {
-         int sign_number = 1;
-         
-         if ($<sign_degree>2 == '-')
-            sign_number = -1;
-
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
-         $<terms[0].degree>1 = ($<terms[0].coefficient>3 * sign_number);
-         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
-         //free
+   
+   one_term: 
+      base '^' C {
+         int sizeOfArray = getSizeOfArrayStruct($<terms>1);
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct) * (sizeOfArray + 1));
+         $<terms[0].degree>$ = $<terms[0].coefficient>3;
       } |
+      base;
 
-      SYMBOL {
+   base: 
+      NUMBER SYMBOL {
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
+         $<terms[0].symbol>1 = ($<terms[0].symbol>2);
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
+         $<terms[0].degree>$ = 1;
       } |
-
       NUMBER {
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
-         //free
+
+      } |
+      SYMBOL {
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
+         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
+      }
+
+   C:
+      '(' D ')' {
+         int sizeOfArray = getSizeOfArrayStruct($<terms>2);
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
+      } |
+      NUMBER {
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
+         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
       };
+
+   D:
+      D '+' D {
+         int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+         int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+         $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+      } |
+      D '-' D {
+         int sizeOfArray1 = getSizeOfArrayStruct($<terms>1); 
+         int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+         $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
+         $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+      } |
+      D '*' D {
+         int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+         int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+         $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+      } |
+      '-' D {
+         int sizeOfArray = getSizeOfArrayStruct($<terms>2);
+         $<terms>2 = changeSign(sizeOfArray, $<terms>2);
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
+         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray));
+      } |
+      '(' D ')' {
+         int sizeOfArray = getSizeOfArrayStruct($<terms>2);
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
+      } |
+      D '^' D {
+         int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+         int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+         $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+      } |
+      NUMBER {
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
+         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
+      };
+   // result: A {
+   //    int sizeOfArray = getSizeOfArrayStruct($<terms>$);
+   //    printResult($<terms>$, sizeOfArray);
+   //    return 0;
+   // };
+
+   // A:
+   //    A'+'A {
+   //          int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+   //          int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+   //          $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+   //       } |
+
+   //    A'-'A {
+   //       int sizeOfArray1 = getSizeOfArrayStruct($<terms>1); // 3x^-3+2x^6+4x^3+5x^3-2x^3-2x^-3
+   //       int sizeOfArray2 = getSizeOfArrayStruct($<terms>3); // 4x^2*4x   4x^2*4x^0   4x^2+3x*7x^3+14x^4  (4x^2+3x*7x^3+14x^4)*0
+   //       $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
+   //       $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+   //    } |
+
+   //    A'*'A {
+   //       int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+   //       int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+   //       $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+   //    } |
+
+   //    '-'A {
+   //       int sizeOfArray = getSizeOfArrayStruct($<terms>2);
+   //       $<terms>2 = changeSign(sizeOfArray, $<terms>2);
+   //       $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
+   //       memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray));
+
+   //    } |
+
+   //    '('A')' {
+   //       int sizeOfArray = getSizeOfArrayStruct($<terms>2);
+   //       $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+   //       memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
+   //    } |
+   //    one_term;
+
+   // one_term:
+   //    NUMBER symbol_with_degree {
+   //       $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * 2);
+   //       memcpy(&$<terms[0]>$, $<terms>2, sizeof(struct term_struct));
+   //       $<terms[0].coefficient>$ = $<terms->coefficient>1;
+         
+   //       $<terms[1].symbol>$ = '\0';
+   //    }  |
+
+   //    symbol_with_degree {
+   //       $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * 2);
+   //       memcpy(&$<terms[0]>$, $<terms>1, sizeof(struct term_struct)); 
+
+   //       $<terms[1].symbol>$ = '\0';
+   //    };
+
+   // symbol_with_degree:
+   //    SYMBOL SIGN_DEGREE NUMBER {
+   //       int sign_number = 1;
+         
+   //       if ($<sign_degree>2 == '-')
+   //          sign_number = -1;
+
+   //       $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
+   //       $<terms[0].degree>1 = ($<terms[0].coefficient>3 * sign_number);
+   //       memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
+   //       //free
+   //    } |
+
+   //    SYMBOL {
+   //       $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
+   //       memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
+   //    } |
+
+   //    NUMBER {
+   //       $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
+   //       memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
+   //       //free
+   //    };
    
 
 %%

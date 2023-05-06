@@ -253,6 +253,11 @@
       NUMBER {
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
+      } |
+      '-' NUMBER {
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
+         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct));
+         $<terms[0].coefficient>$ *= -1;
       };
 
    D:

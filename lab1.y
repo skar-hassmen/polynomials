@@ -160,6 +160,7 @@
 
 %left '+' '-' 
 %left '*' 
+%left '^'
 %left '(' ')'
 
 %union {
@@ -223,7 +224,7 @@
             free(fr);
             $<terms[0].coefficient>2 = 1;
             $<terms[0].symbol>2 = '#';
-            $<terms[0].degree>2 = 1;
+            $<terms[0].degree>2 = 0;
          }
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));

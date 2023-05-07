@@ -271,7 +271,12 @@
          int sizeOfArray = getSizeOfArrayStruct($<terms>1);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct) * (sizeOfArray + 1));
-         $<terms[0].degree>$ = $<terms[0].coefficient>3;
+         if ($<terms[0].coefficient>3 == 0) {
+            $<terms[0].coefficient>$ = 1;
+         }
+         else {
+            $<terms[0].degree>$ = $<terms[0].coefficient>3;
+         }
       } |
       base;
 

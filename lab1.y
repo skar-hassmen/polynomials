@@ -216,6 +216,15 @@
             }
             sizeOfArray = sizeOfArray2;
          }
+         else if (degree == 0) {
+            sizeOfArray = 1;
+            struct term_struct* fr = $<terms>2;
+            $<terms>2 = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
+            free(fr);
+            $<terms[0].coefficient>2 = 1;
+            $<terms[0].symbol>2 = '#';
+            $<terms[0].degree>2 = 1;
+         }
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
       } |
@@ -328,8 +337,13 @@ int main(int argc, void *argv[]) {
    return 0;
 }
 
-void yyerror() {
-   printf("\nEntered data is invalid!\n\n");
+void yyerror(const char* messageAboutError) {
+   if (strlen(messageAboutError) > 0) {
+      printf("\n%s\n\n", messageAboutError);
+   }
+   else {
+      printf("\nEntered data is invalid!\n\n");
+   }
 }
 
 

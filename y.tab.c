@@ -750,8 +750,8 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,   205,   205,   212,   217,   223,   228,   234,   262,   267,
-     270,   281,   284,   289,   294,   300,   305,   309,   316,   321,
-     327,   332,   338,   343,   348
+     270,   285,   288,   293,   297,   303,   308,   312,   319,   324,
+     330,   335,   341,   346,   351
 };
 #endif
 
@@ -1437,143 +1437,146 @@ yyreduce:
             (yyval.terms[0].coefficient) = 1;
          }
          else {
+            int num = (yyval.terms[0].coefficient);
             (yyval.terms[0].degree) = (yyvsp[0].terms[0].coefficient);
+            for (int i = 0; i < (yyval.terms[0].degree) - 1; i++) {
+               (yyval.terms[0].coefficient) *= num;
+            }
          }
       }
-#line 1444 "y.tab.c"
+#line 1448 "y.tab.c"
     break;
 
   case 12: /* base: NUMBER SYMBOL  */
-#line 284 "lab1.y"
+#line 288 "lab1.y"
                     {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          (yyvsp[-1].terms[0].symbol) = ((yyvsp[0].terms[0].symbol));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct));
       }
-#line 1454 "y.tab.c"
+#line 1458 "y.tab.c"
     break;
 
   case 13: /* base: NUMBER  */
-#line 289 "lab1.y"
+#line 293 "lab1.y"
              {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
-
       }
-#line 1464 "y.tab.c"
+#line 1467 "y.tab.c"
     break;
 
   case 14: /* base: SYMBOL  */
-#line 294 "lab1.y"
+#line 297 "lab1.y"
              {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1473 "y.tab.c"
+#line 1476 "y.tab.c"
     break;
 
   case 15: /* C: '(' D ')'  */
-#line 300 "lab1.y"
+#line 303 "lab1.y"
                 {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[-1].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1483 "y.tab.c"
+#line 1486 "y.tab.c"
     break;
 
   case 16: /* C: NUMBER  */
-#line 305 "lab1.y"
+#line 308 "lab1.y"
              {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1492 "y.tab.c"
+#line 1495 "y.tab.c"
     break;
 
   case 17: /* C: '-' NUMBER  */
-#line 309 "lab1.y"
+#line 312 "lab1.y"
                  {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
          (yyval.terms[0].coefficient) *= -1;
       }
-#line 1502 "y.tab.c"
+#line 1505 "y.tab.c"
     break;
 
   case 18: /* D: D '+' D  */
-#line 316 "lab1.y"
+#line 319 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1512 "y.tab.c"
+#line 1515 "y.tab.c"
     break;
 
   case 19: /* D: D '-' D  */
-#line 321 "lab1.y"
+#line 324 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms)); 
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyvsp[0].terms) = changeSign(sizeOfArray2, (yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1523 "y.tab.c"
+#line 1526 "y.tab.c"
     break;
 
   case 20: /* D: D '*' D  */
-#line 327 "lab1.y"
+#line 330 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1533 "y.tab.c"
+#line 1536 "y.tab.c"
     break;
 
   case 21: /* D: '-' D  */
-#line 332 "lab1.y"
+#line 335 "lab1.y"
             {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyvsp[0].terms) = changeSign(sizeOfArray, (yyvsp[0].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct) * (sizeOfArray));
       }
-#line 1544 "y.tab.c"
+#line 1547 "y.tab.c"
     break;
 
   case 22: /* D: '(' D ')'  */
-#line 338 "lab1.y"
+#line 341 "lab1.y"
                 {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[-1].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1554 "y.tab.c"
+#line 1557 "y.tab.c"
     break;
 
   case 23: /* D: D '^' D  */
-#line 343 "lab1.y"
+#line 346 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1564 "y.tab.c"
+#line 1567 "y.tab.c"
     break;
 
   case 24: /* D: NUMBER  */
-#line 348 "lab1.y"
+#line 351 "lab1.y"
              {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1573 "y.tab.c"
+#line 1576 "y.tab.c"
     break;
 
 
-#line 1577 "y.tab.c"
+#line 1580 "y.tab.c"
 
       default: break;
     }
@@ -1766,7 +1769,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 352 "lab1.y"
+#line 355 "lab1.y"
 
 
 int main(int argc, void *argv[]) {

@@ -275,7 +275,11 @@
             $<terms[0].coefficient>$ = 1;
          }
          else {
+            int num = $<terms[0].coefficient>$;
             $<terms[0].degree>$ = $<terms[0].coefficient>3;
+            for (int i = 0; i < $<terms[0].degree>$ - 1; i++) {
+               $<terms[0].coefficient>$ *= num;
+            }
          }
       } |
       base;
@@ -289,7 +293,6 @@
       NUMBER {
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
-
       } |
       SYMBOL {
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));

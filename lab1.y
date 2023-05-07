@@ -202,14 +202,22 @@
       } |
       '(' A ')' '^' C {
          int sizeOfArray = getSizeOfArrayStruct($<terms>2);
+         int degree = $<terms[0].coefficient>5;
+         if (degree > 1) {
+            struct term_struct* tmp = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
+            memcpy(tmp, $<terms>2, sizeof(struct term_struct) * (sizeOfArray));
+            int sizeOfArray2 = sizeOfArray;
+            for (int k = 0; k < degree - 1; k++) {
+               struct term_struct* fr = $<terms>2;
+               $<terms>2 = multiple(sizeOfArray2, sizeOfArray, $<terms>2, tmp);
+               sizeOfArray2 = getSizeOfArrayStruct($<terms>2);
+               if (k < degree - 2)
+                  free(fr);
+            }
+            sizeOfArray = sizeOfArray2;
+         }
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
-         $<terms[0].degree>$ = $<terms[0].coefficient>5;
-         int multi = $<terms[0].coefficient>$;
-         for (int i = 1; i < $<terms[0].degree>$; i++) {
-            multi *= $<terms[0].coefficient>$;
-         }
-         $<terms[0].coefficient>$ = multi;
       } |
       '(' A ')' {
          int sizeOfArray = getSizeOfArrayStruct($<terms>2);

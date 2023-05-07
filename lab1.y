@@ -21,7 +21,7 @@
 
       for (i = 0; i < sizeArray2; i++) {
          for (j = 0; j < sizeArray1; j++) {
-            if (term2[i].degree == resultArray[j].degree) {
+            if ((term2[i].degree == resultArray[j].degree) && (term2[i].symbol == resultArray[j].symbol)) {
                resultArray[j].coefficient += term2[i].coefficient;
                flag = 1;
             }
@@ -54,16 +54,31 @@
          for (j = 0; j < sizeArray2; j++) {
             int degree, coefficient;
             degree = term1[i].degree + term2[j].degree;
-
             if (degree == 0)
                temp[sizeTemp].symbol = '#';
-            else
-               temp[sizeTemp].symbol = term1[0].symbol;
+            else {
+               if ((term1[i].symbol != '#') || (term1[j].symbol != '#'))
+                  temp[sizeTemp].symbol = 'x';
+               else
+                  temp[sizeTemp].symbol = '#';
+            }
 
             coefficient = term1[i].coefficient * term2[j].coefficient;
             temp[sizeTemp].coefficient = coefficient;
-            temp[sizeTemp].degree = degree;
-
+            if (term1[i].symbol == term2[j].symbol && term1[i].symbol != '#')
+               temp[sizeTemp].degree = degree;
+            else {
+               if (term1[i].symbol != '#') {
+                  temp[sizeTemp].degree = term1[i].degree;
+               }
+               else if (term2[j].symbol != '#') {
+                  temp[sizeTemp].degree = term2[j].degree;
+               }
+               else {
+                  temp[sizeTemp].degree = 1;
+               }
+            }
+               
             sizeTemp++;
          }
       }
@@ -78,7 +93,7 @@
             continue;
 
          for (j = 1; j < sizeTemp; j++) {
-            if (temp[i].degree == temp[j].degree && i != j) {
+            if ((temp[i].degree == temp[j].degree) && (i != j) && (temp[i].symbol == temp[j].symbol)) {
                sum += temp[j].coefficient;
                temp[j].coefficient = 0;
             }
@@ -109,6 +124,21 @@
          for (int i = sizeResult - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                if (result[j].degree < result[j + 1].degree) {
+                  struct term_struct temp[1];
+
+                  temp[0].coefficient = result[j].coefficient;
+                  temp[0].degree = result[j].degree;
+                  temp[0].symbol = result[j].symbol;
+
+                  result[j].coefficient = result[j + 1].coefficient; 
+                  result[j].degree = result[j + 1].degree; 
+                  result[j].symbol = result[j + 1].symbol; 
+
+                  result[j + 1].coefficient = temp[0].coefficient;
+                  result[j + 1].degree = temp[0].degree;
+                  result[j + 1].symbol = temp[0].symbol;
+               }
+               else if ((result[j].degree == result[j + 1].degree) && ((result[j].symbol < result[j + 1].symbol))) {
                   struct term_struct temp[1];
 
                   temp[0].coefficient = result[j].coefficient;
@@ -212,7 +242,7 @@
                struct term_struct* fr = $<terms>2;
                $<terms>2 = multiple(sizeOfArray2, sizeOfArray, $<terms>2, tmp);
                sizeOfArray2 = getSizeOfArrayStruct($<terms>2);
-               if (k < degree - 2)
+               if (k < degree - 1)
                   free(fr);
             }
             sizeOfArray = sizeOfArray2;
@@ -224,7 +254,7 @@
             free(fr);
             $<terms[0].coefficient>2 = 1;
             $<terms[0].symbol>2 = '#';
-            $<terms[0].degree>2 = 0;
+            $<terms[0].degree>2 = 1;
          }
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
@@ -250,7 +280,6 @@
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          $<terms[0].symbol>1 = ($<terms[0].symbol>2);
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
-         $<terms[0].degree>$ = 1;
       } |
       NUMBER {
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));

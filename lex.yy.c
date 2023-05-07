@@ -728,7 +728,7 @@ YY_RULE_SETUP
    yylval.terms = (struct term_struct*)malloc(sizeof(struct term_struct));
    yylval.terms->coefficient = atoi(yytext);
    yylval.terms->symbol = '#';
-   yylval.terms->degree = 0;
+   yylval.terms->degree = 1;
    return NUMBER;
 }
 	YY_BREAK

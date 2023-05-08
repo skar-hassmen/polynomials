@@ -40,7 +40,7 @@
 
    struct term_struct* changeSign(int sizeArray, struct term_struct* resultArray) {
       for (int i = 0; i < sizeArray; i++)
-            resultArray[i].coefficient *= (-1);
+         resultArray[i].coefficient *= (-1);
       resultArray[sizeArray].symbol = '\0';
 
       return resultArray;
@@ -106,6 +106,7 @@
 
             sizeResult++;
          }
+         sum = 0;
       }
 
       free(temp);
@@ -159,16 +160,17 @@
          char sign = '\0';
          for (int i = 0; i < sizeResult; i++) {
             if (result[i].symbol != '#') {
-               if (i != 0 && result[i].coefficient > 0)
+               int coeff = result[i].coefficient;
+               if (i != 0 && coeff > 0)
                   sign = '+';
-               else {
+               else if (coeff < 0) {
                   sign = '-';
-                  result[i].coefficient *= -1;
+                  coeff *= -1;
                }
 
                printf("%c", sign);
-               if (result[i].coefficient != 1) {
-                  printf("%d", result[i].coefficient);
+               if (coeff != 1) {
+                  printf("%d", coeff);
                }
                printf("%c", result[i].symbol);
 
@@ -279,10 +281,12 @@
             $<terms[0].coefficient>$ = 1;
          }
          else {
-            int num = $<terms[0].coefficient>$;
             $<terms[0].degree>$ = $<terms[0].coefficient>3;
-            for (int i = 0; i < $<terms[0].degree>$ - 1; i++) {
-               $<terms[0].coefficient>$ *= num;
+            int num = $<terms[0].coefficient>$;
+            if ((num > 1) && ($<terms[0].symbol>$ == '#')) {
+               for (int i = 0; i < $<terms[0].degree>$ - 1; i++) {
+                  $<terms[0].coefficient>$ *= num;
+               }
             }
          }
       } |

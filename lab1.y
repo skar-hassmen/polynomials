@@ -212,6 +212,8 @@
       int sizeOfArray = getSizeOfArrayStruct($<terms>$);
       printResult($<terms>$, sizeOfArray);
       return 0;
+   }| {
+      yyerror("Syntax Error: Empty data entered!");
    };
 
    A: 

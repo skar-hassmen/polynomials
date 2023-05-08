@@ -161,6 +161,10 @@
             if (result[i].symbol != '#') {
                if (i != 0 && result[i].coefficient > 0)
                   sign = '+';
+               else {
+                  sign = '-';
+                  result[i].coefficient *= -1;
+               }
 
                printf("%c", sign);
                if (result[i].coefficient != 1) {

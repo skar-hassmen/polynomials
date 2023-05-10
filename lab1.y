@@ -236,8 +236,8 @@
       '-' A {
          int sizeOfArray = getSizeOfArrayStruct($<terms>2);
          $<terms>2 = changeSign(sizeOfArray, $<terms>2);
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
-         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray));
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray + 1));
+         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
       } |
       '(' A ')' '^' C {
          int sizeOfArray = getSizeOfArrayStruct($<terms>2);

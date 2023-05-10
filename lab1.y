@@ -228,10 +228,10 @@
    };
 
    A: 
-      '+' '+' { yyerror("Syntax Error: Two or more identical characters entered!"); } |
-      '-' '-' { yyerror("Syntax Error: Two or more identical characters entered!"); } |
-      '*' '*' { yyerror("Syntax Error: Two or more identical characters entered!"); } |
-      '^' '^' { yyerror("Syntax Error: Two or more identical characters entered!"); } |
+      '+' '+' { yyerror("Syntax Error: Two or more identical operation symbols entered!"); } |
+      '-' '-' { yyerror("Syntax Error: Two or more identical operation symbols entered!"); } |
+      '*' '*' { yyerror("Syntax Error: Two or more identical operation symbols entered!"); } |
+      '^' '^' { yyerror("Syntax Error: Two or more identical operation symbols entered!"); } |
 
 
       A '+' A {
@@ -312,7 +312,8 @@
       } |
       base;
 
-   base: 
+   base:
+      SYMBOL SYMBOL { yyerror("Syntax Error: Two or more unknown variables entered without delimiter operations!"); } | 
       NUMBER SYMBOL {
          checkOtherSymbols($<terms[0].symbol>2);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));

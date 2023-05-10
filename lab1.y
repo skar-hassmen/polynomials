@@ -354,9 +354,13 @@
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
       } |
       D '^' D {
-         int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
-         int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
-         $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+         int sizeOfArray = getSizeOfArrayStruct($<terms>1);
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
+         int tmp = $<terms[0].coefficient>$;
+         for (int i = 1; i < $<terms[0].coefficient>3; i++) {
+            $<terms[0].coefficient>$ *= tmp;
+         }
       } |
       NUMBER {
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));

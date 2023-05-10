@@ -757,7 +757,7 @@ static const yytype_int16 yyrline[] =
 {
        0,   211,   211,   215,   220,   225,   231,   236,   242,   270,
      275,   278,   295,   298,   303,   307,   313,   318,   322,   329,
-     334,   340,   345,   351,   356,   361
+     334,   340,   345,   351,   356,   365
 };
 #endif
 
@@ -1575,24 +1575,28 @@ yyreduce:
   case 24: /* D: D '^' D  */
 #line 356 "lab1.y"
               {
-         int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
-         int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
-         (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
+         int sizeOfArray = getSizeOfArrayStruct((yyvsp[-2].terms));
+         (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+         memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
+         int tmp = (yyval.terms[0].coefficient);
+         for (int i = 1; i < (yyvsp[0].terms[0].coefficient); i++) {
+            (yyval.terms[0].coefficient) *= tmp;
+         }
       }
-#line 1583 "y.tab.c"
+#line 1587 "y.tab.c"
     break;
 
   case 25: /* D: NUMBER  */
-#line 361 "lab1.y"
+#line 365 "lab1.y"
              {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1592 "y.tab.c"
+#line 1596 "y.tab.c"
     break;
 
 
-#line 1596 "y.tab.c"
+#line 1600 "y.tab.c"
 
       default: break;
     }
@@ -1785,7 +1789,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 365 "lab1.y"
+#line 369 "lab1.y"
 
 
 int main(int argc, void *argv[]) {

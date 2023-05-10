@@ -289,6 +289,7 @@
                for (int i = 0; i < $<terms[0].degree>$ - 1; i++) {
                   $<terms[0].coefficient>$ *= num;
                }
+               $<terms[0].degree>$ = 1;
             }
          }
       } |

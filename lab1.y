@@ -4,6 +4,8 @@
    #include "term_struct.h"
 
    extern FILE* yyin;
+   extern int yylineno;
+
    char symbol_expr = '\0';
 
    void checkOtherSymbols(char ch) {
@@ -226,6 +228,12 @@
    };
 
    A: 
+      '+' '+' { yyerror("Syntax Error: Two or more identical characters entered!"); } |
+      '-' '-' { yyerror("Syntax Error: Two or more identical characters entered!"); } |
+      '*' '*' { yyerror("Syntax Error: Two or more identical characters entered!"); } |
+      '^' '^' { yyerror("Syntax Error: Two or more identical characters entered!"); } |
+
+
       A '+' A {
          int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
          int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
@@ -282,7 +290,7 @@
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
       } |
       one_term;
-   
+
    one_term: 
       base '^' C {
          int sizeOfArray = getSizeOfArrayStruct($<terms>1);
@@ -403,7 +411,7 @@ int main(int argc, void *argv[]) {
 
 void yyerror(const char* messageAboutError) {
    if (strlen(messageAboutError) > 0) {
-      printf("\n%s\n\n", messageAboutError);
+      printf("\n%s Line: %d.\n\n", messageAboutError, yylineno);
    }
    else {
       printf("\nEntered data is invalid!\n\n");

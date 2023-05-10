@@ -7,6 +7,7 @@
    extern int yylineno;
 
    char symbol_expr = '\0';
+   int MAX_VALUE = 2147483647, MIN_VALUE = -2147483648; 
 
    void checkOtherSymbols(char ch) {
       if (symbol_expr == '\0') {
@@ -31,9 +32,15 @@
       int resultSize = sizeArray1, i, j, flag = 0;
       memcpy(resultArray, term1, sizeof(struct term_struct) * (sizeArray1));
 
+      long long overflow;
+
       for (i = 0; i < sizeArray2; i++) {
          for (j = 0; j < sizeArray1; j++) {
             if ((term2[i].degree == resultArray[j].degree) && (term2[i].symbol == resultArray[j].symbol)) {
+               overflow = resultArray[j].coefficient;
+               if (overflow + term2[i].coefficient > MAX_VALUE || overflow + term2[i].coefficient < MIN_VALUE)
+                  yyerror("Error: An integer type \"int\" has overflowed!");
+
                resultArray[j].coefficient += term2[i].coefficient;
                flag = 1;
             }
@@ -61,6 +68,7 @@
    struct term_struct* multiple(int sizeArray1, int sizeArray2, struct term_struct* term1, struct term_struct* term2) {
       struct term_struct* temp = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeArray1 * sizeArray2));
       int sizeTemp = 0, i, j;
+      long long overflow;
 
       for (i = 0; i < sizeArray1; i++) {
          for (j = 0; j < sizeArray2; j++) {
@@ -75,6 +83,10 @@
                   temp[sizeTemp].symbol = '#';
             }
 
+            overflow = term1[i].coefficient;
+            if (overflow * term2[j].coefficient > MAX_VALUE || overflow * term2[j].coefficient < MIN_VALUE)
+               yyerror("Error: An integer type \"int\" has overflowed!");
+            
             coefficient = term1[i].coefficient * term2[j].coefficient;
             temp[sizeTemp].coefficient = coefficient;
             if (term1[i].symbol == term2[j].symbol && term1[i].symbol != '#')
@@ -300,10 +312,15 @@
             $<terms[0].coefficient>$ = 1;
          }
          else {
+            long long overflow;
+
             $<terms[0].degree>$ = $<terms[0].coefficient>3;
             int num = $<terms[0].coefficient>$;
             if ((num > 1) && ($<terms[0].symbol>$ == '#')) {
                for (int i = 0; i < $<terms[0].degree>$ - 1; i++) {
+                  overflow = $<terms[0].coefficient>$;
+                  if (overflow * num > MAX_VALUE || overflow * num < MIN_VALUE)
+                     yyerror("Error: An integer type \"int\" has overflowed!");
                   $<terms[0].coefficient>$ *= num;
                }
                $<terms[0].degree>$ = 1;

@@ -55,8 +55,7 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     NUMBER = 258,                  /* NUMBER  */
-    SYMBOL = 259,                  /* SYMBOL  */
-    SIGN_DEGREE = 260              /* SIGN_DEGREE  */
+    SYMBOL = 259                   /* SYMBOL  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -67,19 +66,17 @@ extern int yydebug;
 #define YYUNDEF 257
 #define NUMBER 258
 #define SYMBOL 259
-#define SIGN_DEGREE 260
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 202 "lab1.y"
+#line 212 "lab1.y"
 
    struct vars_struct* vars;
    struct term_struct* terms;
-   char sign_degree;
 
-#line 83 "y.tab.h"
+#line 80 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

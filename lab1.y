@@ -4,6 +4,16 @@
    #include "term_struct.h"
 
    extern FILE* yyin;
+   char symbol_expr = '\0';
+
+   void checkOtherSymbols(char ch) {
+      if (symbol_expr == '\0') {
+         symbol_expr = ch;
+      }
+      else if (symbol_expr != ch) {
+         yyerror("Syntax Error: Different symbols of unknowns are introduced in the expression!");
+      }
+   }
 
    int getSizeOfArrayStruct(struct term_struct* term) {
       int sizeArray = 0;
@@ -58,7 +68,7 @@
                temp[sizeTemp].symbol = '#';
             else {
                if ((term1[i].symbol != '#') || (term1[j].symbol != '#'))
-                  temp[sizeTemp].symbol = 'x';
+                  temp[sizeTemp].symbol = symbol_expr;
                else
                   temp[sizeTemp].symbol = '#';
             }
@@ -192,7 +202,7 @@
    
 %}
 
-%token NUMBER SYMBOL SIGN_DEGREE
+%token NUMBER SYMBOL
 
 %left '+' '-' 
 %left '*' 
@@ -202,7 +212,6 @@
 %union {
    struct vars_struct* vars;
    struct term_struct* terms;
-   char sign_degree;
 }
 
 
@@ -297,6 +306,7 @@
 
    base: 
       NUMBER SYMBOL {
+         checkOtherSymbols($<terms[0].symbol>2);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          $<terms[0].symbol>1 = ($<terms[0].symbol>2);
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
@@ -306,6 +316,7 @@
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
       } |
       SYMBOL {
+         checkOtherSymbols($<terms[0].symbol>1);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
       }
@@ -397,6 +408,8 @@ void yyerror(const char* messageAboutError) {
    else {
       printf("\nEntered data is invalid!\n\n");
    }
+
+   exit(1);
 }
 
 

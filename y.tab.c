@@ -1882,10 +1882,15 @@ int main(int argc, void *argv[]) {
 
 void yyerror(const char* messageAboutError) {
    if (strlen(messageAboutError) > 0) {
-      printf("\n%s Line: %d.\n\n", messageAboutError, yylineno);
+      if (!strcmp(messageAboutError, "syntax error")) {
+         printf("\nSyntax Error: No rule found! Line: %d.\n\n", yylineno);
+      }
+      else {
+         printf("\n%s Line: %d.\n\n", messageAboutError, yylineno);
+      }
    }
    else {
-      printf("\nEntered data is invalid!\n\n");
+      printf("\nSyntax Error: Entered data is invalid! Line: %d.\n\n", yylineno);
    }
 
    exit(1);

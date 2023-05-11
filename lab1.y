@@ -216,7 +216,7 @@
    
 %}
 
-%token NUMBER SYMBOL
+%token NUMBER SYMBOL PRINT COMMENT
 
 %left '+' '-' 
 %left '*' 
@@ -236,7 +236,7 @@
       printResult($<terms>$, sizeOfArray);
       return 0;
    }| {
-      yyerror("Syntax Error: Empty data entered!");
+      yyerror("Syntax Error: Empty data entered or Invalid tokens entered or Invalid tokens entered!");
    };
 
    A: 

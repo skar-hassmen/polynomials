@@ -6,6 +6,19 @@
 %}
 
 %%
+"<<" {
+   return PRINT;
+}
+
+"//" {
+   return COMMENT;
+}
+
+\$[a-zA-Z_][a-zA-Z0-9_]* {
+   strcpy(yylval.vars->nameVar, yytext);
+   yylval.vars->polinom = NULL;
+}
+
 [[:digit:]]* {
    yylval.terms = (struct term_struct*)malloc(sizeof(struct term_struct));
    yylval.terms->coefficient = atoi(yytext);
@@ -22,10 +35,9 @@
    return SYMBOL;
 }
 
-[\n] return 0;
-
-. return yytext[0];
-
+[()-=+*^] {
+   return yytext[0];
+}
 %%
 
 int yywrap() {

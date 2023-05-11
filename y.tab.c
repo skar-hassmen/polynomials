@@ -330,7 +330,9 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     NUMBER = 258,                  /* NUMBER  */
-    SYMBOL = 259                   /* SYMBOL  */
+    SYMBOL = 259,                  /* SYMBOL  */
+    PRINT = 260,                   /* PRINT  */
+    COMMENT = 261                  /* COMMENT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -341,6 +343,8 @@ extern int yydebug;
 #define YYUNDEF 257
 #define NUMBER 258
 #define SYMBOL 259
+#define PRINT 260
+#define COMMENT 261
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -351,7 +355,7 @@ union YYSTYPE
    struct vars_struct* vars;
    struct term_struct* terms;
 
-#line 355 "y.tab.c"
+#line 359 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -376,19 +380,21 @@ enum yysymbol_kind_t
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
   YYSYMBOL_NUMBER = 3,                     /* NUMBER  */
   YYSYMBOL_SYMBOL = 4,                     /* SYMBOL  */
-  YYSYMBOL_5_ = 5,                         /* '+'  */
-  YYSYMBOL_6_ = 6,                         /* '-'  */
-  YYSYMBOL_7_ = 7,                         /* '*'  */
-  YYSYMBOL_8_ = 8,                         /* '^'  */
-  YYSYMBOL_9_ = 9,                         /* '('  */
-  YYSYMBOL_10_ = 10,                       /* ')'  */
-  YYSYMBOL_YYACCEPT = 11,                  /* $accept  */
-  YYSYMBOL_result = 12,                    /* result  */
-  YYSYMBOL_A = 13,                         /* A  */
-  YYSYMBOL_one_term = 14,                  /* one_term  */
-  YYSYMBOL_base = 15,                      /* base  */
-  YYSYMBOL_C = 16,                         /* C  */
-  YYSYMBOL_D = 17                          /* D  */
+  YYSYMBOL_PRINT = 5,                      /* PRINT  */
+  YYSYMBOL_COMMENT = 6,                    /* COMMENT  */
+  YYSYMBOL_7_ = 7,                         /* '+'  */
+  YYSYMBOL_8_ = 8,                         /* '-'  */
+  YYSYMBOL_9_ = 9,                         /* '*'  */
+  YYSYMBOL_10_ = 10,                       /* '^'  */
+  YYSYMBOL_11_ = 11,                       /* '('  */
+  YYSYMBOL_12_ = 12,                       /* ')'  */
+  YYSYMBOL_YYACCEPT = 13,                  /* $accept  */
+  YYSYMBOL_result = 14,                    /* result  */
+  YYSYMBOL_A = 15,                         /* A  */
+  YYSYMBOL_one_term = 16,                  /* one_term  */
+  YYSYMBOL_base = 17,                      /* base  */
+  YYSYMBOL_C = 18,                         /* C  */
+  YYSYMBOL_D = 19                          /* D  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -719,7 +725,7 @@ union yyalloc
 #define YYLAST   66
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  11
+#define YYNTOKENS  13
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
@@ -728,7 +734,7 @@ union yyalloc
 #define YYNSTATES  52
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   259
+#define YYMAXUTOK   261
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -746,17 +752,12 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       9,    10,     7,     5,     2,     6,     2,     2,     2,     2,
+      11,    12,     9,     7,     2,     8,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     8,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,    10,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -767,7 +768,13 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5,     6
 };
 
 #if YYDEBUG
@@ -794,8 +801,8 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "NUMBER", "SYMBOL",
-  "'+'", "'-'", "'*'", "'^'", "'('", "')'", "$accept", "result", "A",
-  "one_term", "base", "C", "D", YY_NULLPTR
+  "PRINT", "COMMENT", "'+'", "'-'", "'*'", "'^'", "'('", "')'", "$accept",
+  "result", "A", "one_term", "base", "C", "D", YY_NULLPTR
 };
 
 static const char *
@@ -819,12 +826,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       9,    -3,    29,    38,    21,    27,    32,     9,    50,    -1,
-     -35,    48,   -35,   -35,   -35,    28,    54,   -35,   -35,    53,
-     -35,     9,     9,     9,    35,    56,    54,    54,   -35,   -35,
-      59,    36,   -35,    35,   -35,   -35,    36,    36,    41,   -35,
-      12,    47,    36,    36,    36,    36,   -35,   -35,    12,    12,
-      57,   -35
+       9,    22,    23,    -6,    21,    26,    41,     9,    36,    -3,
+     -35,    47,   -35,   -35,   -35,    30,    53,   -35,   -35,    52,
+     -35,     9,     9,     9,    34,    55,    53,    53,   -35,   -35,
+      60,    35,   -35,    34,   -35,   -35,    35,    35,    40,   -35,
+       5,    46,    35,    35,    35,    35,   -35,   -35,     5,     5,
+      56,   -35
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -843,7 +850,7 @@ static const yytype_int8 yydefact[] =
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -35,   -35,     0,   -35,   -35,    33,   -34
+     -35,   -35,     0,   -35,   -35,    11,   -34
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -857,45 +864,45 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       9,    12,    40,    41,    21,    22,    23,    19,    48,    49,
-      50,    51,     1,     2,     3,     4,     5,     6,     7,    44,
-      45,    26,    27,    28,     1,     2,     3,    15,     5,     6,
-       7,     1,     2,    13,    17,     5,     6,     7,    29,    35,
-      18,    30,    36,    14,    31,    37,    42,    43,    44,    45,
-      20,    46,    42,    43,    44,    45,    24,    47,    21,    22,
-      23,    23,    34,    25,    33,    45,    39
+       9,    14,    40,    41,    21,    22,    23,    19,    48,    49,
+      50,    51,     1,     2,    44,    45,     3,     4,     5,     6,
+       7,    26,    27,    28,     1,     2,    12,    13,     3,    15,
+       5,     6,     7,     1,     2,    17,    20,    29,    35,     5,
+       6,     7,    30,    36,    39,    31,    37,    42,    43,    44,
+      45,    18,    46,    42,    43,    44,    45,    24,    47,    21,
+      22,    23,    23,    34,    25,    33,    45
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     4,    36,    37,     5,     6,     7,     7,    42,    43,
-      44,    45,     3,     4,     5,     6,     7,     8,     9,     7,
-       8,    21,    22,    23,     3,     4,     5,     6,     7,     8,
-       9,     3,     4,     4,     7,     7,     8,     9,     3,     3,
-       8,     6,     6,     5,     9,     9,     5,     6,     7,     8,
-       0,    10,     5,     6,     7,     8,     8,    10,     5,     6,
-       7,     7,     3,    10,     8,     8,    33
+       0,     7,    36,    37,     7,     8,     9,     7,    42,    43,
+      44,    45,     3,     4,     9,    10,     7,     8,     9,    10,
+      11,    21,    22,    23,     3,     4,     4,     4,     7,     8,
+       9,    10,    11,     3,     4,     9,     0,     3,     3,     9,
+      10,    11,     8,     8,    33,    11,    11,     7,     8,     9,
+      10,    10,    12,     7,     8,     9,    10,    10,    12,     7,
+       8,     9,     9,     3,    12,    10,    10
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     5,     6,     7,     8,     9,    12,    13,
-      14,    15,     4,     4,     5,     6,    13,     7,     8,    13,
-       0,     5,     6,     7,     8,    10,    13,    13,    13,     3,
-       6,     9,    16,     8,     3,     3,     6,     9,    17,    16,
-      17,    17,     5,     6,     7,     8,    10,    10,    17,    17,
-      17,    17
+       0,     3,     4,     7,     8,     9,    10,    11,    14,    15,
+      16,    17,     4,     4,     7,     8,    15,     9,    10,    15,
+       0,     7,     8,     9,    10,    12,    15,    15,    15,     3,
+       8,    11,    18,    10,     3,     3,     8,    11,    19,    18,
+      19,    19,     7,     8,     9,    10,    12,    12,    19,    19,
+      19,    19
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    11,    12,    12,    13,    13,    13,    13,    13,    13,
-      13,    13,    13,    13,    13,    14,    14,    15,    15,    15,
-      15,    16,    16,    16,    17,    17,    17,    17,    17,    17,
-      17
+       0,    13,    14,    14,    15,    15,    15,    15,    15,    15,
+      15,    15,    15,    15,    15,    16,    16,    17,    17,    17,
+      17,    18,    18,    18,    19,    19,    19,    19,    19,    19,
+      19
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1374,39 +1381,39 @@ yyreduce:
       printResult((yyval.terms), sizeOfArray);
       return 0;
    }
-#line 1378 "y.tab.c"
+#line 1385 "y.tab.c"
     break;
 
   case 3: /* result: %empty  */
 #line 238 "lab1.y"
       {
-      yyerror("Syntax Error: Empty data entered!");
+      yyerror("Syntax Error: Empty data entered or Invalid tokens entered or Invalid tokens entered!");
    }
-#line 1386 "y.tab.c"
+#line 1393 "y.tab.c"
     break;
 
   case 4: /* A: '+' '+'  */
 #line 243 "lab1.y"
               { yyerror("Syntax Error: Two or more identical operation symbols entered!"); }
-#line 1392 "y.tab.c"
+#line 1399 "y.tab.c"
     break;
 
   case 5: /* A: '-' '-'  */
 #line 244 "lab1.y"
               { yyerror("Syntax Error: Two or more identical operation symbols entered!"); }
-#line 1398 "y.tab.c"
+#line 1405 "y.tab.c"
     break;
 
   case 6: /* A: '*' '*'  */
 #line 245 "lab1.y"
               { yyerror("Syntax Error: Two or more identical operation symbols entered!"); }
-#line 1404 "y.tab.c"
+#line 1411 "y.tab.c"
     break;
 
   case 7: /* A: '^' '^'  */
 #line 246 "lab1.y"
               { yyerror("Syntax Error: Two or more identical operation symbols entered!"); }
-#line 1410 "y.tab.c"
+#line 1417 "y.tab.c"
     break;
 
   case 8: /* A: A '+' A  */
@@ -1416,7 +1423,7 @@ yyreduce:
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1420 "y.tab.c"
+#line 1427 "y.tab.c"
     break;
 
   case 9: /* A: A '-' A  */
@@ -1427,7 +1434,7 @@ yyreduce:
          (yyvsp[0].terms) = changeSign(sizeOfArray2, (yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1431 "y.tab.c"
+#line 1438 "y.tab.c"
     break;
 
   case 10: /* A: A '*' A  */
@@ -1437,7 +1444,7 @@ yyreduce:
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1441 "y.tab.c"
+#line 1448 "y.tab.c"
     break;
 
   case 11: /* A: '-' A  */
@@ -1448,7 +1455,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1452 "y.tab.c"
+#line 1459 "y.tab.c"
     break;
 
   case 12: /* A: '(' A ')' '^' C  */
@@ -1481,7 +1488,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-3].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1485 "y.tab.c"
+#line 1492 "y.tab.c"
     break;
 
   case 13: /* A: '(' A ')'  */
@@ -1491,7 +1498,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1495 "y.tab.c"
+#line 1502 "y.tab.c"
     break;
 
   case 15: /* one_term: base '^' C  */
@@ -1519,13 +1526,13 @@ yyreduce:
             }
          }
       }
-#line 1523 "y.tab.c"
+#line 1530 "y.tab.c"
     break;
 
   case 17: /* base: SYMBOL SYMBOL  */
 #line 333 "lab1.y"
                     { yyerror("Syntax Error: Two or more unknown variables entered without delimiter operations!"); }
-#line 1529 "y.tab.c"
+#line 1536 "y.tab.c"
     break;
 
   case 18: /* base: NUMBER SYMBOL  */
@@ -1536,7 +1543,7 @@ yyreduce:
          (yyvsp[-1].terms[0].symbol) = ((yyvsp[0].terms[0].symbol));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct));
       }
-#line 1540 "y.tab.c"
+#line 1547 "y.tab.c"
     break;
 
   case 19: /* base: NUMBER  */
@@ -1545,7 +1552,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1549 "y.tab.c"
+#line 1556 "y.tab.c"
     break;
 
   case 20: /* base: SYMBOL  */
@@ -1555,7 +1562,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1559 "y.tab.c"
+#line 1566 "y.tab.c"
     break;
 
   case 21: /* C: '(' D ')'  */
@@ -1565,7 +1572,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1569 "y.tab.c"
+#line 1576 "y.tab.c"
     break;
 
   case 22: /* C: NUMBER  */
@@ -1574,7 +1581,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1578 "y.tab.c"
+#line 1585 "y.tab.c"
     break;
 
   case 23: /* C: '-' NUMBER  */
@@ -1584,7 +1591,7 @@ yyreduce:
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
          (yyval.terms[0].coefficient) *= -1;
       }
-#line 1588 "y.tab.c"
+#line 1595 "y.tab.c"
     break;
 
   case 24: /* D: D '+' D  */
@@ -1594,7 +1601,7 @@ yyreduce:
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1598 "y.tab.c"
+#line 1605 "y.tab.c"
     break;
 
   case 25: /* D: D '-' D  */
@@ -1605,7 +1612,7 @@ yyreduce:
          (yyvsp[0].terms) = changeSign(sizeOfArray2, (yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1609 "y.tab.c"
+#line 1616 "y.tab.c"
     break;
 
   case 26: /* D: D '*' D  */
@@ -1615,7 +1622,7 @@ yyreduce:
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1619 "y.tab.c"
+#line 1626 "y.tab.c"
     break;
 
   case 27: /* D: '-' D  */
@@ -1626,7 +1633,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct) * (sizeOfArray));
       }
-#line 1630 "y.tab.c"
+#line 1637 "y.tab.c"
     break;
 
   case 28: /* D: '(' D ')'  */
@@ -1636,7 +1643,7 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1640 "y.tab.c"
+#line 1647 "y.tab.c"
     break;
 
   case 29: /* D: D '^' D  */
@@ -1650,7 +1657,7 @@ yyreduce:
             (yyval.terms[0].coefficient) *= tmp;
          }
       }
-#line 1654 "y.tab.c"
+#line 1661 "y.tab.c"
     break;
 
   case 30: /* D: NUMBER  */
@@ -1659,11 +1666,11 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1663 "y.tab.c"
+#line 1670 "y.tab.c"
     break;
 
 
-#line 1667 "y.tab.c"
+#line 1674 "y.tab.c"
 
       default: break;
     }

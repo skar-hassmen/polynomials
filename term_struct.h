@@ -6,6 +6,6 @@ struct term_struct {
 
 
 struct vars_struct {
-	struct term_struct polinom[256];
+	struct term_struct* polinom;
 	char nameVar[256];
 };

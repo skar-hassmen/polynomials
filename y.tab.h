@@ -55,7 +55,9 @@ extern int yydebug;
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
     NUMBER = 258,                  /* NUMBER  */
-    SYMBOL = 259                   /* SYMBOL  */
+    SYMBOL = 259,                  /* SYMBOL  */
+    PRINT = 260,                   /* PRINT  */
+    COMMENT = 261                  /* COMMENT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -66,6 +68,8 @@ extern int yydebug;
 #define YYUNDEF 257
 #define NUMBER 258
 #define SYMBOL 259
+#define PRINT 260
+#define COMMENT 261
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -76,7 +80,7 @@ union YYSTYPE
    struct vars_struct* vars;
    struct term_struct* terms;
 
-#line 80 "y.tab.h"
+#line 84 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

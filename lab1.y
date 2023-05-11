@@ -216,7 +216,7 @@
    
 %}
 
-%token NUMBER SYMBOL PRINT COMMENT
+%token NUMBER SYMBOL PRINT COMMENT VAR
 
 %left '+' '-' 
 %left '*' 
@@ -230,14 +230,86 @@
 
 
 %%
+   start:
+      VAR '=' expression {
+         
+      } |
+      PRINT VAR {
+         
+      };
 
-   result: A {
-      int sizeOfArray = getSizeOfArrayStruct($<terms>$);
-      printResult($<terms>$, sizeOfArray);
-      return 0;
-   }| {
-      yyerror("Syntax Error: Empty data entered or Invalid tokens entered or Invalid tokens entered!");
-   };
+   expression:
+      variable {
+
+      } |
+      A {
+
+      } |
+      expr {
+
+      };
+
+   expr:
+      one_expr '+' one_expr {
+
+      } |
+      one_expr '*' one_expr {
+
+      };
+
+   one_expr: 
+      A {
+
+      } | 
+      VAR {
+
+      };
+
+   variable:
+      variable '+' variable {
+         int sizeOfArray1 = getSizeOfArrayStruct($<vars->polinom>1);
+         int sizeOfArray2 = getSizeOfArrayStruct($<vars->polinom>3);
+         $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
+         $<vars->polinom>$ = addition(sizeOfArray1, sizeOfArray2, $<vars->polinom>1, $<vars->polinom>3);
+         free($<vars->polinom>1);
+         free($<vars->polinom>3);
+         free($<vars>1);
+         free($<vars>3);
+      } |
+      variable '-' variable {
+         int sizeOfArray1 = getSizeOfArrayStruct($<vars->polinom>1);
+         int sizeOfArray2 = getSizeOfArrayStruct($<vars->polinom>3);
+         <vars->polinom>3 = changeSign(sizeOfArray2, $<vars->polinom>3);
+         $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
+         $<vars->polinom>$ = addition(sizeOfArray1, sizeOfArray2, $<vars->polinom>1, $<vars->polinom>3);
+         free($<vars->polinom>1);
+         free($<vars->polinom>3);
+         free($<vars>1);
+         free($<vars>3);
+      } |
+      '-' variable {
+         int sizeOfArray = getSizeOfArrayStruct($<vars->polinom>2);
+         $<vars->polinom>$ = changeSign(sizeOfArray, $<vars->polinom>2);
+      } |
+      variable '*' variable {
+         int sizeOfArray1 = getSizeOfArrayStruct($<vars->polinom>1);
+         int sizeOfArray2 = getSizeOfArrayStruct($<vars->polinom>3);
+         $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
+         $<vars->polinom>$ = multiple(sizeOfArray1, sizeOfArray2, $<vars->polinom>1, $<vars->polinom>3);
+         free($<vars->polinom>1);
+         free($<vars->polinom>3);
+         free($<vars>1);
+         free($<vars>3);
+      } |
+      variable '^' C {
+
+      } |
+      '(' variable ')' '^' C {
+
+      } |
+      '(' variable ')' {
+
+      };
 
    A: 
       '+' '+' { yyerror("Syntax Error: Two or more identical operation symbols entered!"); } |

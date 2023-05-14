@@ -57,7 +57,7 @@
             if (degree == 0)
                temp[sizeTemp].symbol = '#';
             else {
-               if ((term1[i].symbol != '#') || (term1[j].symbol != '#'))
+               if ((term1[i].symbol != '#') || (term2[j].symbol != '#'))
                   temp[sizeTemp].symbol = 'x';
                else
                   temp[sizeTemp].symbol = '#';

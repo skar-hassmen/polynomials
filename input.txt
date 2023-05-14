@@ -1,8 +1,5 @@
-$bbb = 7x
-$ggg = 8x
-$eee = $ggg + $bbb
-<< $bbb
-<< $ggg
-<< $eee1
-!! $eee
+$bbb = 1
+$ggg = 12
+$g1 = 8x
+$eee = $ggg  * $g1
 << $eee

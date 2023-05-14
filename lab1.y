@@ -343,13 +343,13 @@
    expression:
       variable {
          int sizeOfArray = getSizeOfArrayStruct($<vars->polinom>1);
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray));
-         memcpy($<terms>$, $<vars->polinom>1, sizeof(struct term_struct) * (sizeOfArray));
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+         memcpy($<terms>$, $<vars->polinom>1, sizeof(struct term_struct) * (sizeOfArray + 1));
       } |
       A {
          int sizeOfArray = getSizeOfArrayStruct($<terms>1);
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray));
-         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct) * (sizeOfArray));
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct) * (sizeOfArray + 1));
       };
 
    variable:

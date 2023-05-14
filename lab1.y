@@ -354,7 +354,6 @@
       } |
       COMMENT VAR;
 
-
    expression:
       variable {
          int sizeOfArray = getSizeOfArrayStruct($<vars.polinom>1);
@@ -452,6 +451,74 @@
       } |
       '(' variable ')' {
          $<vars>$ = $<vars>2;
+      } |
+      variable '+' A {
+         struct list *result = checkElem($<vars.nameVar>1);
+         if (result != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+            $<vars.polinom>$ = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>3);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
+      } |
+      A '+' variable {
+         struct list *result = checkElem($<vars.nameVar>3);
+         if (result != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>1);
+            $<vars.polinom>$ = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>1);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         } 
+      } |
+      variable '-' A {
+         struct list *result = checkElem($<vars.nameVar>1);
+         if (result != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+            $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
+            $<vars.polinom>$ = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>3);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
+      } |
+      A '-' variable {
+         struct list *result = checkElem($<vars.nameVar>3);
+         if (result != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>1);
+            result->var.polinom = changeSign(sizeOfArray2, result->var.polinom);
+            $<vars.polinom>$ = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>1);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
+      } |
+      variable '*' A {
+         struct list *result = checkElem($<vars.nameVar>1);
+         if (result != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+            $<vars.polinom>$ = multiple(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>3);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
+      } |
+      A '*' variable {
+         struct list *result = checkElem($<vars.nameVar>3);
+         if (result != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>1);
+            $<vars.polinom>$ = multiple(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>3);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
       } |
       VAR {
          struct list *result = checkElem($<vars.nameVar>1);
@@ -654,7 +721,7 @@ int main(int argc, void *argv[]) {
 void yyerror(const char* messageAboutError) {
    if (strlen(messageAboutError) > 0) {
       if (!strcmp(messageAboutError, "syntax error")) {
-         printf("\nSyntax Error: No rule found! Line: %d.\n\n", yylineno);
+         printf("\nSyntax Error: Entered data is invalid! Line: %d.\n\n", yylineno);
       }
       else {
          printf("\n%s Line: %d.\n\n", messageAboutError, yylineno);

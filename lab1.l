@@ -21,9 +21,8 @@
 
 
 \$[a-zA-Z_][a-zA-Z0-9_]* {
-   yylval.vars = (struct vars_struct*)malloc(sizeof(struct vars_struct));
-   strcpy(yylval.vars->nameVar, yytext);
-   yylval.vars->polinom = NULL;
+   strcpy(yylval.vars.nameVar, yytext);
+   yylval.vars.polinom = NULL;
    return VAR;
 }
 
@@ -50,8 +49,8 @@
 [\n] {
    yylineno++;
 }
-
-[ \t\r];
+[\r\t];
+[' '];
 %%
 
 int yywrap() {

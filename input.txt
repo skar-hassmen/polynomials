@@ -1,5 +1,4 @@
-$bbb = 1
-$ggg = 12
-$g1 = 8x
-$eee = $ggg  * $g1
+$bbb = 7x^2+4x + 2
+$rrr = -1
+$eee = $bbb * $rrr
 << $eee

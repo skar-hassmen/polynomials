@@ -79,9 +79,9 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 307 "lab1.y"
+#line 308 "lab1.y"
 
-   struct vars_struct* vars;
+   struct vars_struct vars;
    struct term_struct* terms;
 
 #line 88 "y.tab.h"

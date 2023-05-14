@@ -1,6 +1,3 @@
 $bbb = 3
-$rrr = 0
-$yyy = 2x
-$eee = $bbb * $rrr
-
+$eee = $bbb ^ 0
 << $eee

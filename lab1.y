@@ -342,7 +342,9 @@
          else {
             yyerror("Error: Non-increased variable!");
          }
-      };
+      } |
+      COMMENT VAR;
+
 
    expression:
       variable {

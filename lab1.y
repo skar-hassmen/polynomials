@@ -276,10 +276,28 @@
          addFirstElemToList(result, sizeResult, name);
       }
    }
+
+   int deleteElemFromList(const char* name) {
+      struct list *scan = begL;
+      struct list *prevNode = begL;
+
+      while (scan != NULL) {
+         if (strcmp(scan->var.nameVar, name) == 0) {
+            prevNode->next = scan->next;
+            scan->next = NULL;
+            free(scan->var.polinom);
+            free(scan);
+            return 1;
+         }
+         prevNode = scan;
+         scan = scan->next;
+      }
+      return 0;
+   }
    
 %}
 
-%token NUMBER SYMBOL PRINT COMMENT VAR
+%token NUMBER SYMBOL PRINT COMMENT VAR DELETE
 
 %left '+' '-' 
 %left '*' 
@@ -308,6 +326,17 @@
             printf("%s = ", result->var.nameVar);
             int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
             printResult(result->var.polinom, sizeOfArray);
+         }
+      } |
+      DELETE VAR {
+         struct list *result = checkElem($<vars->nameVar>2);
+         if (result != NULL) {
+            if (deleteElemFromList($<vars->nameVar>2) == 0) {
+               yyerror("Error: Delete non-increased variable!");
+            }
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
          }
       };
 
@@ -387,10 +416,38 @@
          }
       } |
       variable '^' C {
-      
-      } |
-      '(' variable ')' '^' C {
-
+         struct list *result = checkElem($<vars->nameVar>2);
+         if (result != NULL) {
+            int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
+            int degree = $<terms[0].coefficient>3;
+            if (degree > 1) {
+               struct term_struct* tmp = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
+               memcpy(tmp, result->var.polinom, sizeof(struct term_struct) * (sizeOfArray));
+               int sizeOfArray2 = sizeOfArray;
+               for (int k = 0; k < degree - 1; k++) {
+                  struct term_struct* fr = result->var.polinom;
+                  result->var.polinom = multiple(sizeOfArray2, sizeOfArray, result->var.polinom, tmp);
+                  sizeOfArray2 = getSizeOfArrayStruct(result->var.polinom);
+                  if (k < degree - 1)
+                     free(fr);
+               }
+               sizeOfArray = sizeOfArray2;
+            }
+            else if (degree == 0) {
+               sizeOfArray = 1;
+               struct term_struct* fr = result->var.polinom;
+               result->var.polinom = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
+               free(fr);
+               $<terms[0].coefficient>2 = 1;
+               $<terms[0].symbol>2 = '#';
+               $<terms[0].degree>2 = 1;
+            }
+            $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
+            memcpy($<terms>$, result->var.polinom, sizeof(struct term_struct) * (sizeOfArray + 1));
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
       } |
       '(' variable ')' {
          $<vars>$ = $<vars>2;

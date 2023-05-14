@@ -10,9 +10,15 @@
    return PRINT;
 }
 
+"!! " {
+   return DELETE;
+}
+
 "//" {
    return COMMENT;
 }
+
+
 
 \$[a-zA-Z_][a-zA-Z0-9_]* {
    yylval.vars = (struct vars_struct*)malloc(sizeof(struct vars_struct));

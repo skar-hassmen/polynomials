@@ -58,7 +58,8 @@ extern int yydebug;
     SYMBOL = 259,                  /* SYMBOL  */
     PRINT = 260,                   /* PRINT  */
     COMMENT = 261,                 /* COMMENT  */
-    VAR = 262                      /* VAR  */
+    VAR = 262,                     /* VAR  */
+    DELETE = 263                   /* DELETE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -72,17 +73,18 @@ extern int yydebug;
 #define PRINT 260
 #define COMMENT 261
 #define VAR 262
+#define DELETE 263
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 289 "lab1.y"
+#line 307 "lab1.y"
 
    struct vars_struct* vars;
    struct term_struct* terms;
 
-#line 86 "y.tab.h"
+#line 88 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

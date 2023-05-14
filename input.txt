@@ -2,5 +2,5 @@ $bbb = 3
 $PPP = 17
 $eee = $bbb + $PPP
 $eee = $eee + 17
-$eee = (3x+1)-4x*(x+6)+12x
+$eee = (x+1)^2
 << $eee

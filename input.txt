@@ -1,4 +1,6 @@
-$bbb = 7x^2+4x + 2
-$rrr = -1
+$bbb = 3
+$rrr = 0
+$yyy = 2x
 $eee = $bbb * $rrr
+
 << $eee

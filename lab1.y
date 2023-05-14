@@ -328,6 +328,9 @@
             int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
             printResult(result->var.polinom, sizeOfArray);
          }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
       } |
       DELETE VAR {
          struct list *result = checkElem($<vars.nameVar>2);
@@ -424,9 +427,10 @@
                struct term_struct* fr = result->var.polinom;
                result->var.polinom = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
                free(fr);
-               $<terms[0].coefficient>2 = 1;
-               $<terms[0].symbol>2 = '#';
-               $<terms[0].degree>2 = 1;
+
+               result->var.polinom[0].coefficient = 1;
+               result->var.polinom[0].symbol = '#';
+               result->var.polinom[0].degree = 1;
             }
             $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
             memcpy($<terms>$, result->var.polinom, sizeof(struct term_struct) * (sizeOfArray + 1));
@@ -438,7 +442,15 @@
       '(' variable ')' {
          $<vars>$ = $<vars>2;
       } |
-      VAR;
+      VAR {
+         struct list *result = checkElem($<vars.nameVar>1);
+         if (result != NULL) {
+            $<terms>$ = result->var.polinom;
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
+      };
 
    A: 
       '+' '+' { yyerror("Syntax Error: Two or more identical operation symbols entered!"); } |

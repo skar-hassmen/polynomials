@@ -1,0 +1,6 @@
+$bbb = 7x
+$ggg = 8x
+$eee = $ggg + $bbb
+<< $bbb
+<< $ggg
+<< $eee

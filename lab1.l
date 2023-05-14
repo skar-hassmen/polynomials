@@ -40,6 +40,12 @@
 [()-=+*^] {
    return yytext[0];
 }
+
+[\n] {
+   yylineno++;
+}
+
+[ \t\r];
 %%
 
 int yywrap() {

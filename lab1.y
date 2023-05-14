@@ -9,6 +9,10 @@
    char symbol_expr = '\0';
    int MAX_VALUE = 2147483647, MIN_VALUE = -2147483648; 
 
+   struct list *begL = NULL;
+   struct list *endL = NULL;
+   int sizeList = 0;
+
    void checkOtherSymbols(char ch) {
       if (symbol_expr == '\0') {
          symbol_expr = ch;
@@ -140,7 +144,6 @@
    }
 
    void printResult(struct term_struct* result, int sizeResult) {
-      printf("Result: ");
 
       if (sizeResult == 0) {
          printf("0");
@@ -213,6 +216,66 @@
       }
       printf("\n");
    }
+
+   int addElemToEndList(struct term_struct* result, int sizeResult, const char* name) {
+      struct list *newElem = (struct list*)malloc(sizeof(struct list));
+      endL->next = newElem;
+      endL = newElem;
+      newElem->next = NULL;
+
+      newElem->var.polinom = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeResult));
+      memcpy(newElem->var.polinom, result, sizeof(struct term_struct) * (sizeResult)); 
+      strcpy(newElem->var.nameVar, name);
+      sizeList++;
+   }
+
+   int addFirstElemToList(struct term_struct* result, int sizeResult, const char* name) {
+      begL = (struct list*)malloc(sizeof(struct list));
+      endL = begL;
+      endL->next = NULL;
+
+      begL->var.polinom = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeResult + 1));
+      memcpy(begL->var.polinom, result, sizeof(struct term_struct) * (sizeResult + 1)); 
+      strcpy(begL->var.nameVar, name);
+      sizeList++;
+   }
+
+   int changeElem(struct term_struct* result, int sizeResult, const char* name) {
+      struct list *scan = begL;
+      while (scan != NULL) {
+         if (strcmp(scan->var.nameVar, name) == 0) {
+            struct term_struct* tmp = scan->var.polinom; 
+
+            scan->var.polinom = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeResult));
+            memcpy(scan->var.polinom, result, sizeof(struct term_struct) * (sizeResult));
+            free(tmp);
+
+            return 1;
+         }
+         scan = scan->next;
+      }
+      return 0;
+   }
+
+   struct list *checkElem(const char* name) {
+      struct list *scan = begL;
+      while (scan != NULL) {
+         if (strcmp(scan->var.nameVar, name) == 0) {
+            return scan;
+         }
+         scan = scan->next;
+      }
+      return NULL;
+   } 
+
+   void addVarToList(struct term_struct* result, int sizeResult, const char* name) {
+      if (begL != NULL) {
+         addElemToEndList(result, sizeResult, name);
+      }
+      else {
+         addFirstElemToList(result, sizeResult, name);
+      }
+   }
    
 %}
 
@@ -230,86 +293,109 @@
 
 
 %%
+   main:
+      | main start;
    start:
       VAR '=' expression {
-         
+         int sizeOfArray = getSizeOfArrayStruct($<terms>3);
+         if (changeElem($<terms>3, sizeOfArray, $<vars->nameVar>1) == 0) {
+            addVarToList($<terms>3, sizeOfArray, $<vars->nameVar>1);
+         }
       } |
       PRINT VAR {
-         
+         struct list *result = checkElem($<vars->nameVar>2);
+         if (result != NULL) {
+            printf("%s = ", result->var.nameVar);
+            int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
+            printResult(result->var.polinom, sizeOfArray);
+         }
       };
 
    expression:
       variable {
-
+         int sizeOfArray = getSizeOfArrayStruct($<vars->polinom>1);
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray));
+         memcpy($<terms>$, $<vars->polinom>1, sizeof(struct term_struct) * (sizeOfArray));
       } |
       A {
-
-      } |
-      expr {
-
-      };
-
-   expr:
-      one_expr '+' one_expr {
-
-      } |
-      one_expr '*' one_expr {
-
-      };
-
-   one_expr: 
-      A {
-
-      } | 
-      VAR {
-
+         int sizeOfArray = getSizeOfArrayStruct($<terms>1);
+         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray));
+         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct) * (sizeOfArray));
       };
 
    variable:
       variable '+' variable {
-         int sizeOfArray1 = getSizeOfArrayStruct($<vars->polinom>1);
-         int sizeOfArray2 = getSizeOfArrayStruct($<vars->polinom>3);
-         $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
-         $<vars->polinom>$ = addition(sizeOfArray1, sizeOfArray2, $<vars->polinom>1, $<vars->polinom>3);
-         free($<vars->polinom>1);
-         free($<vars->polinom>3);
-         free($<vars>1);
-         free($<vars>3);
+         struct list *result1 = checkElem($<vars->nameVar>1);
+         struct list *result2 = checkElem($<vars->nameVar>3);
+         if (result1 != NULL && result2 != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
+            $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
+            $<vars->polinom>$ = addition(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            free($<vars->polinom>1);
+            free($<vars->polinom>3);
+            free($<vars>1);
+            free($<vars>3);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
       } |
       variable '-' variable {
-         int sizeOfArray1 = getSizeOfArrayStruct($<vars->polinom>1);
-         int sizeOfArray2 = getSizeOfArrayStruct($<vars->polinom>3);
-         <vars->polinom>3 = changeSign(sizeOfArray2, $<vars->polinom>3);
-         $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
-         $<vars->polinom>$ = addition(sizeOfArray1, sizeOfArray2, $<vars->polinom>1, $<vars->polinom>3);
-         free($<vars->polinom>1);
-         free($<vars->polinom>3);
-         free($<vars>1);
-         free($<vars>3);
+         struct list *result1 = checkElem($<vars->nameVar>1);
+         struct list *result2 = checkElem($<vars->nameVar>3);
+         if (result1 != NULL && result2 != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
+            $<vars->polinom>3 = changeSign(sizeOfArray2, $<vars->polinom>3);
+            $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
+            $<vars->polinom>$ = addition(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            free($<vars->polinom>1);
+            free($<vars->polinom>3);
+            free($<vars>1);
+            free($<vars>3);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
       } |
       '-' variable {
-         int sizeOfArray = getSizeOfArrayStruct($<vars->polinom>2);
-         $<vars->polinom>$ = changeSign(sizeOfArray, $<vars->polinom>2);
+         struct list *result = checkElem($<vars->nameVar>2);
+         if (result != NULL) {
+            int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
+            $<vars->polinom>$ = changeSign(sizeOfArray, result->var.polinom);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
       } |
       variable '*' variable {
-         int sizeOfArray1 = getSizeOfArrayStruct($<vars->polinom>1);
-         int sizeOfArray2 = getSizeOfArrayStruct($<vars->polinom>3);
-         $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
-         $<vars->polinom>$ = multiple(sizeOfArray1, sizeOfArray2, $<vars->polinom>1, $<vars->polinom>3);
-         free($<vars->polinom>1);
-         free($<vars->polinom>3);
-         free($<vars>1);
-         free($<vars>3);
+         struct list *result1 = checkElem($<vars->nameVar>1);
+         struct list *result2 = checkElem($<vars->nameVar>3);
+         if (result1 != NULL && result2 != NULL) {
+            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
+            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
+            $<vars>$ = (struct vars_struct*)malloc(sizeof(struct vars_struct));
+            $<vars->polinom>$ = multiple(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            free($<vars->polinom>1);
+            free($<vars->polinom>3);
+            free($<vars>1);
+            free($<vars>3);
+         }
+         else {
+            yyerror("Error: Non-increased variable!");
+         }
       } |
       variable '^' C {
-
+      
       } |
       '(' variable ')' '^' C {
 
       } |
       '(' variable ')' {
-
-      };
+         $<vars>$ = $<vars>2;
+      } |
+      VAR;
 
    A: 
       '+' '+' { yyerror("Syntax Error: Two or more identical operation symbols entered!"); } |

@@ -10,12 +10,24 @@
    return PRINT;
 }
 
+"<" {
+   return ERROR_PRINT;
+}
+
 "!! " {
    return DELETE;
 }
 
+"!" {
+   return ERROR_DELETE;
+}
+
 "//" {
    return COMMENT;
+}
+
+"/" {
+   return ERROR_COMMENT;
 }
 
 

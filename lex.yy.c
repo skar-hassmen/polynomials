@@ -351,8 +351,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 11
-#define YY_END_OF_BUFFER 12
+#define YY_NUM_RULES 14
+#define YY_END_OF_BUFFER 15
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -362,9 +362,9 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[26] =
     {   0,
-        5,    5,   12,   11,   11,    8,   11,   11,   11,    7,
-        7,    5,    7,    6,    9,   10,    0,    4,    3,    5,
-        0,    2,    4,    1,    0
+        8,    8,   15,   14,   14,   11,   14,    4,   14,   10,
+        6,    8,    2,    9,   12,   13,    0,    7,    5,    8,
+        0,    3,    7,    1,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -745,28 +745,49 @@ case 2:
 YY_RULE_SETUP
 #line 13 "lab1.l"
 {
-   return DELETE;
+   return ERROR_PRINT;
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 17 "lab1.l"
 {
-   return COMMENT;
+   return DELETE;
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 23 "lab1.l"
+#line 21 "lab1.l"
+{
+   return ERROR_DELETE;
+}
+	YY_BREAK
+case 5:
+YY_RULE_SETUP
+#line 25 "lab1.l"
+{
+   return COMMENT;
+}
+	YY_BREAK
+case 6:
+YY_RULE_SETUP
+#line 29 "lab1.l"
+{
+   return ERROR_COMMENT;
+}
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+#line 35 "lab1.l"
 {
    strcpy(yylval.vars.nameVar, yytext);
    yylval.vars.polinom = NULL;
    return VAR;
 }
 	YY_BREAK
-case 5:
+case 8:
 YY_RULE_SETUP
-#line 29 "lab1.l"
+#line 41 "lab1.l"
 {
    yylval.terms = (struct term_struct*)malloc(sizeof(struct term_struct));
    yylval.terms->coefficient = atoi(yytext);
@@ -775,9 +796,9 @@ YY_RULE_SETUP
    return NUMBER;
 }
 	YY_BREAK
-case 6:
+case 9:
 YY_RULE_SETUP
-#line 37 "lab1.l"
+#line 49 "lab1.l"
 {
    yylval.terms = (struct term_struct*)malloc(sizeof(struct term_struct));
    yylval.terms->coefficient = 1;
@@ -786,37 +807,37 @@ YY_RULE_SETUP
    return SYMBOL;
 }
 	YY_BREAK
-case 7:
+case 10:
 YY_RULE_SETUP
-#line 45 "lab1.l"
+#line 57 "lab1.l"
 {
    return yytext[0];
 }
 	YY_BREAK
-case 8:
-/* rule 8 can match eol */
+case 11:
+/* rule 11 can match eol */
 YY_RULE_SETUP
-#line 49 "lab1.l"
+#line 61 "lab1.l"
 {
    yylineno++;
 }
 	YY_BREAK
-case 9:
+case 12:
 YY_RULE_SETUP
-#line 52 "lab1.l"
+#line 64 "lab1.l"
 
 	YY_BREAK
-case 10:
+case 13:
 YY_RULE_SETUP
-#line 53 "lab1.l"
+#line 65 "lab1.l"
 
 	YY_BREAK
-case 11:
+case 14:
 YY_RULE_SETUP
-#line 54 "lab1.l"
+#line 66 "lab1.l"
 ECHO;
 	YY_BREAK
-#line 820 "lex.yy.c"
+#line 841 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1821,7 +1842,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 54 "lab1.l"
+#line 66 "lab1.l"
 
 
 int yywrap() {

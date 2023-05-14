@@ -298,7 +298,7 @@
    
 %}
 
-%token NUMBER SYMBOL PRINT COMMENT VAR DELETE
+%token NUMBER SYMBOL PRINT COMMENT VAR DELETE ERROR_PRINT ERROR_DELETE ERROR_COMMENT
 
 %left '+' '-' 
 %left '*' 
@@ -342,6 +342,15 @@
          else {
             yyerror("Error: Non-increased variable!");
          }
+      } |
+      ERROR_PRINT VAR {
+         yyerror("Error Parse: Wrong command \"<<\"!");
+      } |
+      ERROR_DELETE VAR {
+         yyerror("Error Parse: Wrong command \"!!\"!"); 
+      }
+      ERROR_COMMENT VAR {
+         yyerror("Error Parse: Wrong command \"//\"!");
       } |
       COMMENT VAR;
 

@@ -22,7 +22,7 @@
    return ERROR_DELETE;
 }
 
-"//" {
+\/\/[^\n]* {
    return COMMENT;
 }
 

@@ -1,5 +1,3 @@
 $bbb = 3
 // $PPP = 17
 << $bbb
-$qwe = 3
-<< $qwe

@@ -313,14 +313,14 @@
 
 %%
    main:
-      | main start
-      | main COMMENT start {
-
-      }
-      | main ERROR_COMMENT start {
-         yyerror("Error Parse: Wrong command \"//\"!");
-      };
+      | main start;
    start:
+      COMMENT VAR {
+         printf("ddd");
+      } |
+      ERROR_COMMENT VAR {
+         yyerror("Error Parse: Wrong command \"//\"!");
+      } |
       ERROR_PRINT VAR {
          yyerror("Error Parse: Wrong command \"<<\"!");
       } |

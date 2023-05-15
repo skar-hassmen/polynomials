@@ -298,7 +298,7 @@
    
 %}
 
-%token NUMBER SYMBOL PRINT COMMENT VAR DELETE ERROR_PRINT ERROR_DELETE 
+%token NUMBER SYMBOL PRINT COMMENT VAR DELETE ERROR_PRINT ERROR_DELETE ERROR_COMMENT
 
 %left '+' '-' 
 %left '*' 
@@ -316,6 +316,15 @@
       | main start;
    start:
       COMMENT |
+      ERROR_COMMENT VAR {
+         yyerror("Error Parse: Wrong command \"//\"!");
+      } |
+      ERROR_PRINT VAR {
+         yyerror("Error Parse: Wrong command \"<<\"!");
+      } |
+      ERROR_DELETE VAR {
+         yyerror("Error Parse: Wrong command \"!!\"!"); 
+      } |
       VAR '=' expression {
          int sizeOfArray = getSizeOfArrayStruct($<terms>3);
          if (changeElem($<terms>3, sizeOfArray, $<vars.nameVar>1) == 0) {

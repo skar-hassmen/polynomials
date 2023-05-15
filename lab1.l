@@ -26,6 +26,10 @@
    return COMMENT;
 }
 
+"/" {
+   return ERROR_COMMENT;
+}
+
 \$[a-zA-Z_][a-zA-Z0-9_]* {
    strcpy(yylval.vars.nameVar, yytext);
    yylval.vars.polinom = NULL;

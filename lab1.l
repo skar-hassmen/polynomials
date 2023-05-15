@@ -22,15 +22,9 @@
    return ERROR_DELETE;
 }
 
-\/\/[^\n]* {
+"//"[^\n]*\n {
    return COMMENT;
 }
-
-"/" {
-   return ERROR_COMMENT;
-}
-
-
 
 \$[a-zA-Z_][a-zA-Z0-9_]* {
    strcpy(yylval.vars.nameVar, yytext);

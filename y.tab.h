@@ -61,8 +61,7 @@ extern int yydebug;
     VAR = 262,                     /* VAR  */
     DELETE = 263,                  /* DELETE  */
     ERROR_PRINT = 264,             /* ERROR_PRINT  */
-    ERROR_DELETE = 265,            /* ERROR_DELETE  */
-    ERROR_COMMENT = 266            /* ERROR_COMMENT  */
+    ERROR_DELETE = 265             /* ERROR_DELETE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -79,7 +78,6 @@ extern int yydebug;
 #define DELETE 263
 #define ERROR_PRINT 264
 #define ERROR_DELETE 265
-#define ERROR_COMMENT 266
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -90,7 +88,7 @@ union YYSTYPE
    struct vars_struct vars;
    struct term_struct* terms;
 
-#line 94 "y.tab.h"
+#line 92 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

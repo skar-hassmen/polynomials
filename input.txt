@@ -1,6 +1,5 @@
 $bbb = 3
-$PPP = 17
-$eee = $bbb + $PPP
-$eee = $eee + 17
-$eee = (x+1)^2
-<< $eee
+// $PPP = 17
+<< $bbb
+$qwe = 3
+<< $qwe

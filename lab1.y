@@ -313,8 +313,20 @@
 
 %%
    main:
-      | main start;
+      | main start
+      | main COMMENT start {
+
+      }
+      | main ERROR_COMMENT start {
+         yyerror("Error Parse: Wrong command \"//\"!");
+      };
    start:
+      ERROR_PRINT VAR {
+         yyerror("Error Parse: Wrong command \"<<\"!");
+      } |
+      ERROR_DELETE VAR {
+         yyerror("Error Parse: Wrong command \"!!\"!"); 
+      } |
       VAR '=' expression {
          int sizeOfArray = getSizeOfArrayStruct($<terms>3);
          if (changeElem($<terms>3, sizeOfArray, $<vars.nameVar>1) == 0) {
@@ -342,17 +354,7 @@
          else {
             yyerror("Error: Non-increased variable!");
          }
-      } |
-      ERROR_PRINT VAR {
-         yyerror("Error Parse: Wrong command \"<<\"!");
-      } |
-      ERROR_DELETE VAR {
-         yyerror("Error Parse: Wrong command \"!!\"!"); 
-      }
-      ERROR_COMMENT VAR {
-         yyerror("Error Parse: Wrong command \"//\"!");
-      } |
-      COMMENT VAR;
+      };
 
    expression:
       variable {
@@ -368,9 +370,9 @@
       variable '+' A {
          struct list *result = checkElem($<vars.nameVar>1);
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
             int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
-            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>3);
+            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -379,9 +381,9 @@
       A '+' variable {
          struct list *result = checkElem($<vars.nameVar>3);
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>3);
             int sizeOfArray2 = getSizeOfArrayStruct($<terms>1);
-            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>1);
+            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>3, $<terms>1);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -390,10 +392,10 @@
       variable '-' A {
          struct list *result = checkElem($<vars.nameVar>1);
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
             int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
             $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
-            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>3);
+            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -402,10 +404,10 @@
       A '-' variable {
          struct list *result = checkElem($<vars.nameVar>3);
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>3);
             int sizeOfArray2 = getSizeOfArrayStruct($<terms>1);
-            result->var.polinom = changeSign(sizeOfArray2, result->var.polinom);
-            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>1);
+            $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
+            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>3, $<terms>1);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -414,9 +416,9 @@
       variable '*' A {
          struct list *result = checkElem($<vars.nameVar>1);
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
             int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
-            $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>3);
+            $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -425,9 +427,9 @@
       A '*' variable {
          struct list *result = checkElem($<vars.nameVar>3);
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>3);
             int sizeOfArray2 = getSizeOfArrayStruct($<terms>1);
-            $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, result->var.polinom, $<terms>3);
+            $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -439,9 +441,9 @@
          struct list *result1 = checkElem($<vars.nameVar>1);
          struct list *result2 = checkElem($<vars.nameVar>3);
          if (result1 != NULL && result2 != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
-            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
-            $<vars.polinom>$ = addition(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -451,10 +453,10 @@
          struct list *result1 = checkElem($<vars.nameVar>1);
          struct list *result2 = checkElem($<vars.nameVar>3);
          if (result1 != NULL && result2 != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
-            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
-            $<vars.polinom>3 = changeSign(sizeOfArray2, $<vars.polinom>3);
-            $<vars.polinom>$ = addition(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+            $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
+            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -463,8 +465,8 @@
       '-' variable {
          struct list *result = checkElem($<vars.nameVar>2);
          if (result != NULL) {
-            int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
-            $<vars.polinom>$ = changeSign(sizeOfArray, result->var.polinom);
+            int sizeOfArray = getSizeOfArrayStruct($<terms>2);
+            $<terms>$ = changeSign(sizeOfArray, $<terms>2);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -474,9 +476,9 @@
          struct list *result1 = checkElem($<vars.nameVar>1);
          struct list *result2 = checkElem($<vars.nameVar>3);
          if (result1 != NULL && result2 != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
-            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
-            $<vars.polinom>$ = multiple(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
+            int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
+            $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
             yyerror("Error: Non-increased variable!");
@@ -485,16 +487,16 @@
       variable '^' C {
          struct list *result = checkElem($<vars.nameVar>2);
          if (result != NULL) {
-            int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray = getSizeOfArrayStruct($<terms>1);
             int degree = $<terms[0].coefficient>3;
             if (degree > 1) {
                struct term_struct* tmp = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
-               memcpy(tmp, result->var.polinom, sizeof(struct term_struct) * (sizeOfArray));
+               memcpy(tmp, $<terms>1, sizeof(struct term_struct) * (sizeOfArray));
                int sizeOfArray2 = sizeOfArray;
                for (int k = 0; k < degree - 1; k++) {
-                  struct term_struct* fr = result->var.polinom;
-                  result->var.polinom = multiple(sizeOfArray2, sizeOfArray, result->var.polinom, tmp);
-                  sizeOfArray2 = getSizeOfArrayStruct(result->var.polinom);
+                  struct term_struct* fr = $<terms>1;
+                  $<terms>1 = multiple(sizeOfArray2, sizeOfArray, $<terms>1, tmp);
+                  sizeOfArray2 = getSizeOfArrayStruct($<terms>1);
                   if (k < degree - 1)
                      free(fr);
                }
@@ -502,16 +504,16 @@
             }
             else if (degree == 0) {
                sizeOfArray = 1;
-               struct term_struct* fr = result->var.polinom;
-               result->var.polinom = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
+               struct term_struct* fr = $<terms>1;
+               $<terms>1 = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
                free(fr);
 
-               result->var.polinom[0].coefficient = 1;
-               result->var.polinom[0].symbol = '#';
-               result->var.polinom[0].degree = 1;
+               $<terms[0].coefficient>1 = 1;
+               $<terms[0].symbol>1 = '#';
+               $<terms[0].degree>1 = 1;
             }
             $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
-            memcpy($<terms>$, result->var.polinom, sizeof(struct term_struct) * (sizeOfArray + 1));
+            memcpy($<terms>$, $<terms>1, sizeof(struct term_struct) * (sizeOfArray + 1));
          }
          else {
             yyerror("Error: Non-increased variable!");

@@ -489,14 +489,13 @@ enum yysymbol_kind_t
   YYSYMBOL_YYACCEPT = 19,                  /* $accept  */
   YYSYMBOL_main = 20,                      /* main  */
   YYSYMBOL_start = 21,                     /* start  */
-  YYSYMBOL_22_1 = 22,                      /* $@1  */
-  YYSYMBOL_expression = 23,                /* expression  */
-  YYSYMBOL_variable = 24,                  /* variable  */
-  YYSYMBOL_A = 25,                         /* A  */
-  YYSYMBOL_one_term = 26,                  /* one_term  */
-  YYSYMBOL_base = 27,                      /* base  */
-  YYSYMBOL_C = 28,                         /* C  */
-  YYSYMBOL_D = 29                          /* D  */
+  YYSYMBOL_expression = 22,                /* expression  */
+  YYSYMBOL_variable = 23,                  /* variable  */
+  YYSYMBOL_A = 24,                         /* A  */
+  YYSYMBOL_one_term = 25,                  /* one_term  */
+  YYSYMBOL_base = 26,                      /* base  */
+  YYSYMBOL_C = 27,                         /* C  */
+  YYSYMBOL_D = 28                          /* D  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -824,16 +823,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   145
+#define YYLAST   152
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  19
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  11
+#define YYNNTS  10
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  52
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  99
+#define YYNSTATES  98
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   266
@@ -883,12 +882,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   315,   315,   316,   318,   324,   335,   346,   349,   349,
-     355,   358,   363,   368,   379,   390,   402,   414,   425,   438,
-     450,   463,   473,   485,   520,   523,   534,   535,   536,   537,
-     540,   545,   551,   556,   562,   590,   595,   598,   621,   624,
-     625,   631,   635,   642,   647,   651,   658,   663,   669,   674,
-     680,   685,   694
+       0,   315,   315,   316,   317,   320,   324,   327,   330,   336,
+     347,   360,   365,   370,   381,   392,   404,   416,   427,   440,
+     452,   465,   475,   487,   522,   525,   536,   537,   538,   539,
+     542,   547,   553,   558,   564,   592,   597,   600,   623,   626,
+     627,   633,   637,   644,   649,   653,   660,   665,   671,   676,
+     682,   687,   696
 };
 #endif
 
@@ -907,8 +906,8 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "NUMBER", "SYMBOL",
   "PRINT", "COMMENT", "VAR", "DELETE", "ERROR_PRINT", "ERROR_DELETE",
   "ERROR_COMMENT", "'+'", "'-'", "'*'", "'^'", "'('", "')'", "'='",
-  "$accept", "main", "start", "$@1", "expression", "variable", "A",
-  "one_term", "base", "C", "D", YY_NULLPTR
+  "$accept", "main", "start", "expression", "variable", "A", "one_term",
+  "base", "C", "D", YY_NULLPTR
 };
 
 static const char *
@@ -918,7 +917,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-45)
+#define YYPACT_NINF (-48)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -932,16 +931,16 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -45,   109,   -45,    -5,     6,    -2,    18,    39,    54,   -45,
-     -45,   -45,     5,   -45,   -45,   -45,    27,    61,   -45,    70,
-      55,    69,    81,     5,   -45,    24,    -8,   -45,    82,    92,
-     -45,   -45,   -45,    77,     8,    71,   -45,   -45,    87,    43,
-       5,     5,     5,    11,     5,     5,     5,    11,   103,    -6,
-      -6,    -6,    60,    60,    60,   -45,    97,     8,   131,     8,
-     131,    98,   131,   -45,   123,    95,   -45,   110,    71,   110,
-      71,   110,   -45,   -45,   -45,    -6,    -6,    74,    60,    11,
-     -45,   -45,    95,    95,   119,    91,   -45,    36,   125,    95,
-      95,    95,    95,   -45,   -45,    36,    36,   120,   -45
+     -48,    94,   -48,    -4,   112,     9,    -2,     6,    31,   112,
+     -48,   -48,   -48,     3,   -48,   -48,   -48,   -48,    45,    55,
+     -48,    51,    53,    61,    64,     3,   -48,     8,   135,   -48,
+      81,   -48,   -48,   -48,    77,    39,    83,   -48,   -48,   111,
+     129,     3,     3,     3,    42,     3,     3,     3,    42,    -5,
+      -5,    -5,    58,    58,    58,   -48,    97,    39,   138,    39,
+     138,   103,   138,   -48,   124,    82,   -48,    96,    83,    96,
+      83,    96,   -48,   -48,    -5,    -5,    74,    58,    42,   -48,
+     -48,    82,    82,   117,    21,   -48,    68,   123,    82,    82,
+      82,    82,   -48,   -48,    68,    68,   118,   -48
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -949,30 +948,28 @@ static const yytype_int16 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     0,     1,     0,     0,     0,     0,     0,     0,     3,
-       5,    10,     0,     6,     7,     8,    41,    42,    25,     0,
-       0,     0,     0,     0,     4,    11,    12,    36,    38,     0,
-      40,    39,    26,    27,    21,    33,    28,    29,     0,     0,
+       2,     0,     1,     0,     0,     0,     0,     0,     0,     0,
+       3,     9,     4,     0,    10,     6,     7,     5,    41,    42,
+      25,     0,     0,     0,     0,     0,     8,    11,    12,    36,
+      38,    40,    39,    26,    27,    21,    33,    28,    29,     0,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
        0,     0,     0,     0,     0,    24,    35,    19,    13,    20,
       15,    22,    17,    44,     0,     0,    23,    14,    30,    16,
-      31,    18,    32,    37,     9,     0,     0,     0,     0,     0,
-      45,    52,     0,     0,     0,    27,    34,    49,     0,     0,
-       0,     0,     0,    43,    50,    46,    47,    48,    51
+      31,    18,    32,    37,     0,     0,     0,     0,     0,    45,
+      52,     0,     0,     0,    27,    34,    49,     0,     0,     0,
+       0,     0,    43,    50,    46,    47,    48,    51
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -45,   -45,   -45,   -45,   -45,     3,   -12,   -45,   -45,   -44,
-      38
+     -48,   -48,     0,   -48,     1,   -13,   -48,   -48,   -47,    25
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     9,    29,    24,    34,    35,    27,    28,    66,
-      84
+       0,     1,    10,    26,    35,    36,    29,    30,    66,    83
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -980,73 +977,75 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      26,    18,    10,    73,    44,    45,    46,    75,    16,    17,
-      76,    39,    18,    11,    63,    25,    12,    19,    20,    21,
-      22,    23,    51,    43,    64,    13,    38,    65,    58,    60,
-      62,    30,    68,    70,    72,    86,    40,    41,    42,    43,
-      68,    70,    72,    57,    59,    61,    14,    67,    69,    71,
-      91,    92,    57,    59,    61,    52,    53,    54,    16,    17,
-      56,    15,    18,    16,    17,    31,    39,    19,    33,    21,
-      22,    23,    19,    77,    21,    22,    78,    16,    17,    38,
-      16,    17,    32,    36,    18,    54,    19,    85,    21,    22,
-      78,    21,    22,    23,    16,    17,    37,    47,    81,    49,
-      50,    51,    43,    48,    55,    21,    22,    78,    82,     2,
-      74,    83,    79,    43,     3,     4,     5,     6,     7,     8,
-      87,    88,    49,    50,    51,    43,    80,    95,    96,    97,
-      98,    89,    90,    91,    92,    92,    93,    89,    90,    91,
-      92,     0,    94,    52,    53,    54
+      28,    73,    20,    11,    12,    14,    18,    19,    74,    17,
+      20,    75,    40,    15,    27,    21,    22,    23,    24,    25,
+      41,    42,    43,    44,    18,    19,    39,    13,    58,    60,
+      62,    85,    68,    70,    72,    23,    24,    77,    16,    68,
+      70,    72,    57,    59,    61,    63,    67,    69,    71,    31,
+      57,    59,    61,    51,    44,    64,    18,    19,    65,    32,
+      20,    18,    19,    33,    40,    21,    34,    23,    24,    25,
+      21,    76,    23,    24,    77,    37,    39,    18,    19,    38,
+      18,    19,    90,    91,    20,    80,    21,    84,    23,    24,
+      77,    23,    24,    25,     2,    81,    48,    54,    82,     3,
+       4,     5,     6,     7,     8,     9,    86,    87,    49,    50,
+      51,    44,    78,    94,    95,    96,    97,     3,    44,     5,
+       6,     7,     8,    49,    50,    51,    44,    79,    55,    88,
+      89,    90,    91,    91,    92,    88,    89,    90,    91,     0,
+      93,    52,    53,    54,     0,     0,    56,    45,    46,    47,
+      52,    53,    54
 };
 
 static const yytype_int8 yycheck[] =
 {
-      12,     7,     7,    47,    12,    13,    14,    13,     3,     4,
-      16,    23,     7,     7,     3,    12,    18,    12,    13,    14,
-      15,    16,    14,    15,    13,     7,    23,    16,    40,    41,
-      42,     4,    44,    45,    46,    79,    12,    13,    14,    15,
-      52,    53,    54,    40,    41,    42,     7,    44,    45,    46,
-      14,    15,    49,    50,    51,    12,    13,    14,     3,     4,
-      17,     7,     7,     3,     4,     4,    78,    12,    13,    14,
-      15,    16,    12,    13,    14,    15,    16,     3,     4,    76,
-       3,     4,    12,    14,     7,    14,    12,    13,    14,    15,
-      16,    14,    15,    16,     3,     4,    15,    15,     3,    12,
-      13,    14,    15,    11,    17,    14,    15,    16,    13,     0,
-       7,    16,    15,    15,     5,     6,     7,     8,     9,    10,
-      82,    83,    12,    13,    14,    15,     3,    89,    90,    91,
-      92,    12,    13,    14,    15,    15,    17,    12,    13,    14,
-      15,    -1,    17,    12,    13,    14
+      13,    48,     7,     7,     4,     7,     3,     4,    13,     9,
+       7,    16,    25,     7,    13,    12,    13,    14,    15,    16,
+      12,    13,    14,    15,     3,     4,    25,    18,    41,    42,
+      43,    78,    45,    46,    47,    14,    15,    16,     7,    52,
+      53,    54,    41,    42,    43,     3,    45,    46,    47,     4,
+      49,    50,    51,    14,    15,    13,     3,     4,    16,     4,
+       7,     3,     4,    12,    77,    12,    13,    14,    15,    16,
+      12,    13,    14,    15,    16,    14,    75,     3,     4,    15,
+       3,     4,    14,    15,     7,     3,    12,    13,    14,    15,
+      16,    14,    15,    16,     0,    13,    15,    14,    16,     5,
+       6,     7,     8,     9,    10,    11,    81,    82,    12,    13,
+      14,    15,    15,    88,    89,    90,    91,     5,    15,     7,
+       8,     9,    10,    12,    13,    14,    15,     3,    17,    12,
+      13,    14,    15,    15,    17,    12,    13,    14,    15,    -1,
+      17,    12,    13,    14,    -1,    -1,    17,    12,    13,    14,
+      12,    13,    14
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    20,     0,     5,     6,     7,     8,     9,    10,    21,
-       7,     7,    18,     7,     7,     7,     3,     4,     7,    12,
-      13,    14,    15,    16,    23,    24,    25,    26,    27,    22,
-       4,     4,    12,    13,    24,    25,    14,    15,    24,    25,
-      12,    13,    14,    15,    12,    13,    14,    15,    11,    12,
-      13,    14,    12,    13,    14,    17,    17,    24,    25,    24,
-      25,    24,    25,     3,    13,    16,    28,    24,    25,    24,
-      25,    24,    25,    28,     7,    13,    16,    13,    16,    15,
-       3,     3,    13,    16,    29,    13,    28,    29,    29,    12,
-      13,    14,    15,    17,    17,    29,    29,    29,    29
+       0,    20,     0,     5,     6,     7,     8,     9,    10,    11,
+      21,     7,    21,    18,     7,     7,     7,    21,     3,     4,
+       7,    12,    13,    14,    15,    16,    22,    23,    24,    25,
+      26,     4,     4,    12,    13,    23,    24,    14,    15,    23,
+      24,    12,    13,    14,    15,    12,    13,    14,    15,    12,
+      13,    14,    12,    13,    14,    17,    17,    23,    24,    23,
+      24,    23,    24,     3,    13,    16,    27,    23,    24,    23,
+      24,    23,    24,    27,    13,    16,    13,    16,    15,     3,
+       3,    13,    16,    28,    13,    27,    28,    28,    12,    13,
+      14,    15,    17,    17,    28,    28,    28,    28
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    19,    20,    20,    21,    21,    21,    21,    22,    21,
-      21,    23,    23,    23,    23,    23,    23,    23,    23,    24,
-      24,    24,    24,    24,    24,    24,    25,    25,    25,    25,
-      25,    25,    25,    25,    25,    25,    25,    26,    26,    27,
-      27,    27,    27,    28,    28,    28,    29,    29,    29,    29,
-      29,    29,    29
+       0,    19,    20,    20,    20,    20,    21,    21,    21,    21,
+      21,    22,    22,    22,    22,    22,    22,    22,    22,    23,
+      23,    23,    23,    23,    23,    23,    24,    24,    24,    24,
+      24,    24,    24,    24,    24,    24,    24,    25,    25,    26,
+      26,    26,    26,    27,    27,    27,    28,    28,    28,    28,
+      28,    28,    28
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     2,     3,     2,     2,     2,     0,     5,
+       0,     2,     0,     2,     3,     3,     2,     2,     3,     2,
        2,     1,     1,     3,     3,     3,     3,     3,     3,     3,
        3,     2,     3,     3,     3,     1,     2,     2,     2,     2,
        3,     3,     3,     2,     5,     3,     1,     3,     1,     2,
@@ -1514,19 +1513,51 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 4: /* start: VAR '=' expression  */
-#line 318 "lab1.y"
+  case 4: /* main: main COMMENT start  */
+#line 317 "lab1.y"
+                           {
+
+      }
+#line 1522 "y.tab.c"
+    break;
+
+  case 5: /* main: main ERROR_COMMENT start  */
+#line 320 "lab1.y"
+                                 {
+         yyerror("Error Parse: Wrong command \"//\"!");
+      }
+#line 1530 "y.tab.c"
+    break;
+
+  case 6: /* start: ERROR_PRINT VAR  */
+#line 324 "lab1.y"
+                      {
+         yyerror("Error Parse: Wrong command \"<<\"!");
+      }
+#line 1538 "y.tab.c"
+    break;
+
+  case 7: /* start: ERROR_DELETE VAR  */
+#line 327 "lab1.y"
+                       {
+         yyerror("Error Parse: Wrong command \"!!\"!"); 
+      }
+#line 1546 "y.tab.c"
+    break;
+
+  case 8: /* start: VAR '=' expression  */
+#line 330 "lab1.y"
                          {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[0].terms));
          if (changeElem((yyvsp[0].terms), sizeOfArray, (yyvsp[-2].vars.nameVar)) == 0) {
             addVarToList((yyvsp[0].terms), sizeOfArray, (yyvsp[-2].vars.nameVar));
          }
       }
-#line 1526 "y.tab.c"
+#line 1557 "y.tab.c"
     break;
 
-  case 5: /* start: PRINT VAR  */
-#line 324 "lab1.y"
+  case 9: /* start: PRINT VAR  */
+#line 336 "lab1.y"
                 {
          struct list *result = checkElem((yyvsp[0].vars.nameVar));
          if (result != NULL) {
@@ -1538,11 +1569,11 @@ yyreduce:
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1542 "y.tab.c"
+#line 1573 "y.tab.c"
     break;
 
-  case 6: /* start: DELETE VAR  */
-#line 335 "lab1.y"
+  case 10: /* start: DELETE VAR  */
+#line 347 "lab1.y"
                  {
          struct list *result = checkElem((yyvsp[0].vars.nameVar));
          if (result != NULL) {
@@ -1554,233 +1585,209 @@ yyreduce:
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1558 "y.tab.c"
-    break;
-
-  case 7: /* start: ERROR_PRINT VAR  */
-#line 346 "lab1.y"
-                      {
-         yyerror("Error Parse: Wrong command \"<<\"!");
-      }
-#line 1566 "y.tab.c"
-    break;
-
-  case 8: /* $@1: %empty  */
-#line 349 "lab1.y"
-                       {
-         yyerror("Error Parse: Wrong command \"!!\"!"); 
-      }
-#line 1574 "y.tab.c"
-    break;
-
-  case 9: /* start: ERROR_DELETE VAR $@1 ERROR_COMMENT VAR  */
-#line 352 "lab1.y"
-                        {
-         yyerror("Error Parse: Wrong command \"//\"!");
-      }
-#line 1582 "y.tab.c"
+#line 1589 "y.tab.c"
     break;
 
   case 11: /* expression: variable  */
-#line 358 "lab1.y"
+#line 360 "lab1.y"
                {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[0].vars.polinom));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[0].vars.polinom), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1592 "y.tab.c"
+#line 1599 "y.tab.c"
     break;
 
   case 12: /* expression: A  */
-#line 363 "lab1.y"
+#line 365 "lab1.y"
         {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1602 "y.tab.c"
+#line 1609 "y.tab.c"
     break;
 
   case 13: /* expression: variable '+' A  */
-#line 368 "lab1.y"
+#line 370 "lab1.y"
                      {
          struct list *result = checkElem((yyvsp[-2].vars.nameVar));
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
             int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
-            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, (yyvsp[0].terms));
+            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1618 "y.tab.c"
+#line 1625 "y.tab.c"
     break;
 
   case 14: /* expression: A '+' variable  */
-#line 379 "lab1.y"
+#line 381 "lab1.y"
                      {
          struct list *result = checkElem((yyvsp[0].vars.nameVar));
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[0].terms));
             int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[-2].terms));
-            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, (yyvsp[-2].terms));
+            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[0].terms), (yyvsp[-2].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          } 
       }
-#line 1634 "y.tab.c"
+#line 1641 "y.tab.c"
     break;
 
   case 15: /* expression: variable '-' A  */
-#line 390 "lab1.y"
+#line 392 "lab1.y"
                      {
          struct list *result = checkElem((yyvsp[-2].vars.nameVar));
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
             int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
             (yyvsp[0].terms) = changeSign(sizeOfArray2, (yyvsp[0].terms));
-            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, (yyvsp[0].terms));
+            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1651 "y.tab.c"
+#line 1658 "y.tab.c"
     break;
 
   case 16: /* expression: A '-' variable  */
-#line 402 "lab1.y"
+#line 404 "lab1.y"
                      {
          struct list *result = checkElem((yyvsp[0].vars.nameVar));
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[0].terms));
             int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[-2].terms));
-            result->var.polinom = changeSign(sizeOfArray2, result->var.polinom);
-            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, result->var.polinom, (yyvsp[-2].terms));
+            (yyvsp[0].terms) = changeSign(sizeOfArray2, (yyvsp[0].terms));
+            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[0].terms), (yyvsp[-2].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1668 "y.tab.c"
+#line 1675 "y.tab.c"
     break;
 
   case 17: /* expression: variable '*' A  */
-#line 414 "lab1.y"
+#line 416 "lab1.y"
                      {
          struct list *result = checkElem((yyvsp[-2].vars.nameVar));
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
             int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
-            (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, result->var.polinom, (yyvsp[0].terms));
+            (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1684 "y.tab.c"
+#line 1691 "y.tab.c"
     break;
 
   case 18: /* expression: A '*' variable  */
-#line 425 "lab1.y"
+#line 427 "lab1.y"
                      {
          struct list *result = checkElem((yyvsp[0].vars.nameVar));
          if (result != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[0].terms));
             int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[-2].terms));
-            (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, result->var.polinom, (yyvsp[0].terms));
+            (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1700 "y.tab.c"
+#line 1707 "y.tab.c"
     break;
 
   case 19: /* variable: variable '+' variable  */
-#line 438 "lab1.y"
+#line 440 "lab1.y"
                             {
          struct list *result1 = checkElem((yyvsp[-2].vars.nameVar));
          struct list *result2 = checkElem((yyvsp[0].vars.nameVar));
          if (result1 != NULL && result2 != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
-            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
-            (yyval.vars.polinom) = addition(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
+            int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
+            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1717 "y.tab.c"
+#line 1724 "y.tab.c"
     break;
 
   case 20: /* variable: variable '-' variable  */
-#line 450 "lab1.y"
+#line 452 "lab1.y"
                             {
          struct list *result1 = checkElem((yyvsp[-2].vars.nameVar));
          struct list *result2 = checkElem((yyvsp[0].vars.nameVar));
          if (result1 != NULL && result2 != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
-            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
-            (yyvsp[0].vars.polinom) = changeSign(sizeOfArray2, (yyvsp[0].vars.polinom));
-            (yyval.vars.polinom) = addition(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
+            int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
+            (yyvsp[0].terms) = changeSign(sizeOfArray2, (yyvsp[0].terms));
+            (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1735 "y.tab.c"
+#line 1742 "y.tab.c"
     break;
 
   case 21: /* variable: '-' variable  */
-#line 463 "lab1.y"
+#line 465 "lab1.y"
                    {
          struct list *result = checkElem((yyvsp[0].vars.nameVar));
          if (result != NULL) {
-            int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
-            (yyval.vars.polinom) = changeSign(sizeOfArray, result->var.polinom);
+            int sizeOfArray = getSizeOfArrayStruct((yyvsp[0].terms));
+            (yyval.terms) = changeSign(sizeOfArray, (yyvsp[0].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1750 "y.tab.c"
+#line 1757 "y.tab.c"
     break;
 
   case 22: /* variable: variable '*' variable  */
-#line 473 "lab1.y"
+#line 475 "lab1.y"
                             {
          struct list *result1 = checkElem((yyvsp[-2].vars.nameVar));
          struct list *result2 = checkElem((yyvsp[0].vars.nameVar));
          if (result1 != NULL && result2 != NULL) {
-            int sizeOfArray1 = getSizeOfArrayStruct(result1->var.polinom);
-            int sizeOfArray2 = getSizeOfArrayStruct(result2->var.polinom);
-            (yyval.vars.polinom) = multiple(sizeOfArray1, sizeOfArray2, result1->var.polinom, result2->var.polinom);
+            int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
+            int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
+            (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1767 "y.tab.c"
+#line 1774 "y.tab.c"
     break;
 
   case 23: /* variable: variable '^' C  */
-#line 485 "lab1.y"
+#line 487 "lab1.y"
                      {
          struct list *result = checkElem((yyvsp[-1].vars.nameVar));
          if (result != NULL) {
-            int sizeOfArray = getSizeOfArrayStruct(result->var.polinom);
+            int sizeOfArray = getSizeOfArrayStruct((yyvsp[-2].terms));
             int degree = (yyvsp[0].terms[0].coefficient);
             if (degree > 1) {
                struct term_struct* tmp = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
-               memcpy(tmp, result->var.polinom, sizeof(struct term_struct) * (sizeOfArray));
+               memcpy(tmp, (yyvsp[-2].terms), sizeof(struct term_struct) * (sizeOfArray));
                int sizeOfArray2 = sizeOfArray;
                for (int k = 0; k < degree - 1; k++) {
-                  struct term_struct* fr = result->var.polinom;
-                  result->var.polinom = multiple(sizeOfArray2, sizeOfArray, result->var.polinom, tmp);
-                  sizeOfArray2 = getSizeOfArrayStruct(result->var.polinom);
+                  struct term_struct* fr = (yyvsp[-2].terms);
+                  (yyvsp[-2].terms) = multiple(sizeOfArray2, sizeOfArray, (yyvsp[-2].terms), tmp);
+                  sizeOfArray2 = getSizeOfArrayStruct((yyvsp[-2].terms));
                   if (k < degree - 1)
                      free(fr);
                }
@@ -1788,34 +1795,34 @@ yyreduce:
             }
             else if (degree == 0) {
                sizeOfArray = 1;
-               struct term_struct* fr = result->var.polinom;
-               result->var.polinom = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
+               struct term_struct* fr = (yyvsp[-2].terms);
+               (yyvsp[-2].terms) = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
                free(fr);
 
-               result->var.polinom[0].coefficient = 1;
-               result->var.polinom[0].symbol = '#';
-               result->var.polinom[0].degree = 1;
+               (yyvsp[-2].terms[0].coefficient) = 1;
+               (yyvsp[-2].terms[0].symbol) = '#';
+               (yyvsp[-2].terms[0].degree) = 1;
             }
             (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
-            memcpy((yyval.terms), result->var.polinom, sizeof(struct term_struct) * (sizeOfArray + 1));
+            memcpy((yyval.terms), (yyvsp[-2].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
          }
          else {
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1807 "y.tab.c"
+#line 1814 "y.tab.c"
     break;
 
   case 24: /* variable: '(' variable ')'  */
-#line 520 "lab1.y"
+#line 522 "lab1.y"
                        {
          (yyval.vars) = (yyvsp[-1].vars);
       }
-#line 1815 "y.tab.c"
+#line 1822 "y.tab.c"
     break;
 
   case 25: /* variable: VAR  */
-#line 523 "lab1.y"
+#line 525 "lab1.y"
           {
          struct list *result = checkElem((yyvsp[0].vars.nameVar));
          if (result != NULL) {
@@ -1825,77 +1832,77 @@ yyreduce:
             yyerror("Error: Non-increased variable!");
          }
       }
-#line 1829 "y.tab.c"
+#line 1836 "y.tab.c"
     break;
 
   case 26: /* A: '+' '+'  */
-#line 534 "lab1.y"
+#line 536 "lab1.y"
               { yyerror("Syntax Error: Two or more identical operation symbols entered!"); }
-#line 1835 "y.tab.c"
+#line 1842 "y.tab.c"
     break;
 
   case 27: /* A: '-' '-'  */
-#line 535 "lab1.y"
+#line 537 "lab1.y"
               { yyerror("Syntax Error: Two or more identical operation symbols entered!"); }
-#line 1841 "y.tab.c"
+#line 1848 "y.tab.c"
     break;
 
   case 28: /* A: '*' '*'  */
-#line 536 "lab1.y"
+#line 538 "lab1.y"
               { yyerror("Syntax Error: Two or more identical operation symbols entered!"); }
-#line 1847 "y.tab.c"
+#line 1854 "y.tab.c"
     break;
 
   case 29: /* A: '^' '^'  */
-#line 537 "lab1.y"
+#line 539 "lab1.y"
               { yyerror("Syntax Error: Two or more identical operation symbols entered!"); }
-#line 1853 "y.tab.c"
+#line 1860 "y.tab.c"
     break;
 
   case 30: /* A: A '+' A  */
-#line 540 "lab1.y"
+#line 542 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1863 "y.tab.c"
+#line 1870 "y.tab.c"
     break;
 
   case 31: /* A: A '-' A  */
-#line 545 "lab1.y"
+#line 547 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms)); // 3x^-3+2x^6+4x^3+5x^3-2x^3-2x^-3
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms)); // 4x^2*4x   4x^2*4x^0   4x^2+3x*7x^3+14x^4  (4x^2+3x*7x^3+14x^4)*0
          (yyvsp[0].terms) = changeSign(sizeOfArray2, (yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1874 "y.tab.c"
+#line 1881 "y.tab.c"
     break;
 
   case 32: /* A: A '*' A  */
-#line 551 "lab1.y"
+#line 553 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 1884 "y.tab.c"
+#line 1891 "y.tab.c"
     break;
 
   case 33: /* A: '-' A  */
-#line 556 "lab1.y"
+#line 558 "lab1.y"
             {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyvsp[0].terms) = changeSign(sizeOfArray, (yyvsp[0].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1895 "y.tab.c"
+#line 1902 "y.tab.c"
     break;
 
   case 34: /* A: '(' A ')' '^' C  */
-#line 562 "lab1.y"
+#line 564 "lab1.y"
                       {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[-3].terms));
          int degree = (yyvsp[0].terms[0].coefficient);
@@ -1924,21 +1931,21 @@ yyreduce:
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-3].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1928 "y.tab.c"
+#line 1935 "y.tab.c"
     break;
 
   case 35: /* A: '(' A ')'  */
-#line 590 "lab1.y"
+#line 592 "lab1.y"
                 {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[-1].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 1938 "y.tab.c"
+#line 1945 "y.tab.c"
     break;
 
   case 37: /* one_term: base '^' C  */
-#line 598 "lab1.y"
+#line 600 "lab1.y"
                  {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[-2].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
@@ -1962,128 +1969,128 @@ yyreduce:
             }
          }
       }
-#line 1966 "y.tab.c"
+#line 1973 "y.tab.c"
     break;
 
   case 39: /* base: SYMBOL SYMBOL  */
-#line 624 "lab1.y"
+#line 626 "lab1.y"
                     { yyerror("Syntax Error: Two or more unknown variables entered without delimiter operations!"); }
-#line 1972 "y.tab.c"
+#line 1979 "y.tab.c"
     break;
 
   case 40: /* base: NUMBER SYMBOL  */
-#line 625 "lab1.y"
+#line 627 "lab1.y"
                     {
          checkOtherSymbols((yyvsp[0].terms[0].symbol));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          (yyvsp[-1].terms[0].symbol) = ((yyvsp[0].terms[0].symbol));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct));
       }
-#line 1983 "y.tab.c"
+#line 1990 "y.tab.c"
     break;
 
   case 41: /* base: NUMBER  */
-#line 631 "lab1.y"
+#line 633 "lab1.y"
              {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 1992 "y.tab.c"
+#line 1999 "y.tab.c"
     break;
 
   case 42: /* base: SYMBOL  */
-#line 635 "lab1.y"
+#line 637 "lab1.y"
              {
          checkOtherSymbols((yyvsp[0].terms[0].symbol));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 2002 "y.tab.c"
+#line 2009 "y.tab.c"
     break;
 
   case 43: /* C: '(' D ')'  */
-#line 642 "lab1.y"
+#line 644 "lab1.y"
                 {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[-1].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 2012 "y.tab.c"
+#line 2019 "y.tab.c"
     break;
 
   case 44: /* C: NUMBER  */
-#line 647 "lab1.y"
+#line 649 "lab1.y"
              {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 2021 "y.tab.c"
+#line 2028 "y.tab.c"
     break;
 
   case 45: /* C: '-' NUMBER  */
-#line 651 "lab1.y"
+#line 653 "lab1.y"
                  {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
          (yyval.terms[0].coefficient) *= -1;
       }
-#line 2031 "y.tab.c"
+#line 2038 "y.tab.c"
     break;
 
   case 46: /* D: D '+' D  */
-#line 658 "lab1.y"
+#line 660 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 2041 "y.tab.c"
+#line 2048 "y.tab.c"
     break;
 
   case 47: /* D: D '-' D  */
-#line 663 "lab1.y"
+#line 665 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms)); 
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyvsp[0].terms) = changeSign(sizeOfArray2, (yyvsp[0].terms));
          (yyval.terms) = addition(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 2052 "y.tab.c"
+#line 2059 "y.tab.c"
     break;
 
   case 48: /* D: D '*' D  */
-#line 669 "lab1.y"
+#line 671 "lab1.y"
               {
          int sizeOfArray1 = getSizeOfArrayStruct((yyvsp[-2].terms));
          int sizeOfArray2 = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyval.terms) = multiple(sizeOfArray1, sizeOfArray2, (yyvsp[-2].terms), (yyvsp[0].terms));
       }
-#line 2062 "y.tab.c"
+#line 2069 "y.tab.c"
     break;
 
   case 49: /* D: '-' D  */
-#line 674 "lab1.y"
+#line 676 "lab1.y"
             {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[0].terms));
          (yyvsp[0].terms) = changeSign(sizeOfArray, (yyvsp[0].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct) * (sizeOfArray));
       }
-#line 2073 "y.tab.c"
+#line 2080 "y.tab.c"
     break;
 
   case 50: /* D: '(' D ')'  */
-#line 680 "lab1.y"
+#line 682 "lab1.y"
                 {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[-1].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy((yyval.terms), (yyvsp[-1].terms), sizeof(struct term_struct) * (sizeOfArray + 1));
       }
-#line 2083 "y.tab.c"
+#line 2090 "y.tab.c"
     break;
 
   case 51: /* D: D '^' D  */
-#line 685 "lab1.y"
+#line 687 "lab1.y"
               {
          int sizeOfArray = getSizeOfArrayStruct((yyvsp[-2].terms));
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
@@ -2093,20 +2100,20 @@ yyreduce:
             (yyval.terms[0].coefficient) *= tmp;
          }
       }
-#line 2097 "y.tab.c"
+#line 2104 "y.tab.c"
     break;
 
   case 52: /* D: NUMBER  */
-#line 694 "lab1.y"
+#line 696 "lab1.y"
              {
          (yyval.terms) = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy((yyval.terms), (yyvsp[0].terms), sizeof(struct term_struct));
       }
-#line 2106 "y.tab.c"
+#line 2113 "y.tab.c"
     break;
 
 
-#line 2110 "y.tab.c"
+#line 2117 "y.tab.c"
 
       default: break;
     }
@@ -2299,7 +2306,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 698 "lab1.y"
+#line 700 "lab1.y"
 
 
 int main(int argc, void *argv[]) {

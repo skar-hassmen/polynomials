@@ -281,13 +281,21 @@
    int deleteElemFromList(const char* name) {
       struct list *scan = begL;
       struct list *prevNode = begL;
-
+      
       while (scan != NULL) {
          if (strcmp(scan->var.nameVar, name) == 0) {
-            prevNode->next = scan->next;
-            scan->next = NULL;
-            free(scan->var.polinom);
-            free(scan);
+            if (sizeList == 1){ 
+               free(scan->var.polinom);
+               free(scan);
+               scan = NULL;
+               begL = NULL;
+            }
+            else {
+               prevNode->next = scan->next;
+               scan->next = NULL;
+               free(scan->var.polinom);
+               free(scan);
+            }
             return 1;
          }
          prevNode = scan;
@@ -302,7 +310,7 @@
 
 %left '+' '-' 
 %left '*' 
-%left '^'
+%right '^'
 %left '(' ')'
 
 %union {
@@ -339,7 +347,7 @@
             printResult(result->var.polinom, sizeOfArray);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       DELETE VAR {
@@ -350,7 +358,7 @@
             }
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       };
 
@@ -373,7 +381,7 @@
             $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       A '+' variable {
@@ -384,7 +392,7 @@
             $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>3, $<terms>1);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          } 
       } |
       variable '-' A {
@@ -396,7 +404,7 @@
             $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       A '-' variable {
@@ -408,7 +416,7 @@
             $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>3, $<terms>1);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       variable '*' A {
@@ -419,7 +427,7 @@
             $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       A '*' variable {
@@ -430,7 +438,7 @@
             $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       };
 
@@ -444,7 +452,7 @@
             $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       variable '-' variable {
@@ -457,7 +465,7 @@
             $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       '-' variable {
@@ -467,7 +475,7 @@
             $<terms>$ = changeSign(sizeOfArray, $<terms>2);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       variable '*' variable {
@@ -479,7 +487,7 @@
             $<terms>$ = multiple(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       variable '^' C {
@@ -514,7 +522,7 @@
             memcpy($<terms>$, $<terms>1, sizeof(struct term_struct) * (sizeOfArray + 1));
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       } |
       '(' variable ')' {
@@ -526,7 +534,7 @@
             $<terms>$ = result->var.polinom;
          }
          else {
-            yyerror("Error: Non-increased variable!");
+            yyerror("Error: Such a variable does not exist!");
          }
       };
 
@@ -686,9 +694,14 @@
          int sizeOfArray = getSizeOfArrayStruct($<terms>1);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
-         int tmp = $<terms[0].coefficient>$;
-         for (int i = 1; i < $<terms[0].coefficient>3; i++) {
-            $<terms[0].coefficient>$ *= tmp;
+         if ($<terms[0].coefficient>3 != 0) {
+            int tmp = $<terms[0].coefficient>$;
+            for (int i = 1; i < $<terms[0].coefficient>3; i++) {
+               $<terms[0].coefficient>$ *= tmp;
+            }
+         }
+         else {
+            $<terms[0].coefficient>$ = 1;
          }
       } |
       NUMBER {

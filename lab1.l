@@ -6,7 +6,7 @@
 %}
 
 %%
-"<< " {
+"<<" {
    return PRINT;
 }
 
@@ -14,7 +14,7 @@
    return ERROR_PRINT;
 }
 
-"!! " {
+"!!" {
    return DELETE;
 }
 

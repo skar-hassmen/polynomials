@@ -59,8 +59,7 @@
 [\n] {
    yylineno++;
 }
-[\r\t];
-[' '];
+[ \r\t];
 %%
 
 int yywrap() {

@@ -30,6 +30,7 @@
 
       return sizeArray;
    }
+   void printResult(struct term_struct* result, int sizeResult);
 
    struct term_struct* addition(int sizeArray1, int sizeArray2, struct term_struct* term1, struct term_struct* term2) {
       struct term_struct* resultArray = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeArray1 + sizeArray2 + 1));
@@ -50,12 +51,13 @@
             }
          }
          if (flag == 0) {
-            memcpy(&resultArray[resultSize], &term2[i], sizeof(struct term_struct));
-            resultSize++;
+            if(term2[i].coefficient != 0) {
+               memcpy(&resultArray[resultSize], &term2[i], sizeof(struct term_struct));
+               resultSize++;
+            }
          }
          flag = 0;
       }
-
       resultArray[resultSize].symbol = '\0';
 
       return resultArray;
@@ -66,6 +68,7 @@
          resultArray[i].coefficient *= (-1);
       resultArray[sizeArray].symbol = '\0';
 
+      
       return resultArray;
    }
 

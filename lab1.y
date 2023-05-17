@@ -48,10 +48,13 @@
 
                resultArray[j].coefficient += term2[i].coefficient;
                flag = 1;
+               if (resultArray[j].coefficient == 0) {
+                  resultSize--;
+               }
             }
          }
          if (flag == 0) {
-            if(term2[i].coefficient != 0) {
+            if(term2[i].coefficient != 0 ) {
                memcpy(&resultArray[resultSize], &term2[i], sizeof(struct term_struct));
                resultSize++;
             }

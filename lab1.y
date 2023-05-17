@@ -32,12 +32,14 @@
    }
    void printResult(struct term_struct* result, int sizeResult);
 
+
    struct term_struct* addition(int sizeArray1, int sizeArray2, struct term_struct* term1, struct term_struct* term2) {
       struct term_struct* resultArray = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeArray1 + sizeArray2 + 1));
       int resultSize = sizeArray1, i, j, flag = 0;
       memcpy(resultArray, term1, sizeof(struct term_struct) * (sizeArray1));
 
       long long overflow;
+      printf("%d===%d\n", sizeArray1, sizeArray2);
 
       for (i = 0; i < sizeArray2; i++) {
          for (j = 0; j < sizeArray1; j++) {
@@ -45,8 +47,9 @@
                overflow = resultArray[j].coefficient;
                if (overflow + term2[i].coefficient > MAX_VALUE || overflow + term2[i].coefficient < MIN_VALUE)
                   yyerror("Error: An integer type \"int\" has overflowed!");
-
+               printf("%d$$$%d\n", resultArray[j].coefficient, term2[i].coefficient);
                resultArray[j].coefficient += term2[i].coefficient;
+               printf("%d***\n", resultArray[j].coefficient);
                flag = 1;
                if (resultArray[j].coefficient == 0) {
                   resultSize--;
@@ -61,7 +64,10 @@
          }
          flag = 0;
       }
+      printResult(resultArray, resultSize);
       resultArray[resultSize].symbol = '\0';
+      printResult(resultArray, resultSize);
+
 
       return resultArray;
    }
@@ -341,6 +347,8 @@
       } |
       VAR '=' expression {
          int sizeOfArray = getSizeOfArrayStruct($<terms>3);
+            printResult($<terms>3 , sizeOfArray);
+         
          if (changeElem($<terms>3, sizeOfArray, $<vars.nameVar>1) == 0) {
             addVarToList($<terms>3, sizeOfArray, $<vars.nameVar>1);
          }
@@ -418,8 +426,12 @@
          if (result != NULL) {
             int sizeOfArray1 = getSizeOfArrayStruct($<terms>3);
             int sizeOfArray2 = getSizeOfArrayStruct($<terms>1);
-            $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
-            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>3, $<terms>1);
+
+            struct term_struct* tmp = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray2 + 1));
+            memcpy(tmp, $<terms>3, sizeof(struct term_struct) * (sizeOfArray2 + 1));
+
+            tmp = changeSign(sizeOfArray2, tmp);
+            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, tmp);
          }
          else {
             yyerror("Error: Such a variable does not exist!");
@@ -467,8 +479,15 @@
          if (result1 != NULL && result2 != NULL) {
             int sizeOfArray1 = getSizeOfArrayStruct($<terms>1);
             int sizeOfArray2 = getSizeOfArrayStruct($<terms>3);
-            $<terms>3 = changeSign(sizeOfArray2, $<terms>3);
-            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, $<terms>3);
+            
+            struct term_struct* tmp = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray2 + 1));
+            memcpy(tmp, $<terms>3, sizeof(struct term_struct) * (sizeOfArray2 + 1));
+
+            tmp = changeSign(sizeOfArray2, tmp);
+            $<terms>$ = addition(sizeOfArray1, sizeOfArray2, $<terms>1, tmp);
+
+            int sizeOfArray = getSizeOfArrayStruct($<terms>$);
+            printResult($<terms>$ , sizeOfArray);
          }
          else {
             yyerror("Error: Such a variable does not exist!");

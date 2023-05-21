@@ -2334,13 +2334,13 @@ yyreturnlab:
 
 int main(int argc, void *argv[]) {
 
-   // if (argc != 2) {
-   //    printf("Wrong number of parameters!\n");
-   //    return 1;
-   // }
+   if (argc != 2) {
+      printf("Wrong number of parameters!\n");
+      return 1;
+   }
 
    printf("A program that works with polynomials.\nSupported operations: addition, subtraction and multiplication of polynomials.\n");
-   yyin = fopen("input.txt", "r");
+   yyin = fopen(argv[1], "r");
 
    if (yyin == NULL) {
 		printf("File doesn`t exist. Create file \"input.txt\"\n");

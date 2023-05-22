@@ -510,7 +510,10 @@
             yyerror("Error: Such a variable does not exist!");
          }
       } |
-      variable '^' C {
+      variable '^' D {
+         if ($<terms[0].coefficient>3 < 0) {
+            yyerror("Error: Negative degree!");
+         }
          struct list *result = checkElem($<vars.nameVar>2);
          if (result != NULL) {
             int sizeOfArray = getSizeOfArrayStruct($<terms>1);
@@ -587,9 +590,13 @@
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray + 1));
          memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
       } |
-      '(' A ')' '^' C {
+      '(' A ')' '^' D {
+         if ($<terms[0].coefficient>5 < 0) {
+            yyerror("Error: Negative degree!");
+         }
          int sizeOfArray = getSizeOfArrayStruct($<terms>2);
          int degree = $<terms[0].coefficient>5;
+
          if (degree > 1) {
             struct term_struct* tmp = (struct term_struct*)malloc(sizeof(struct term_struct) * (sizeOfArray));
             memcpy(tmp, $<terms>2, sizeof(struct term_struct) * (sizeOfArray));
@@ -623,7 +630,10 @@
       one_term;
 
    one_term: 
-      base '^' C {
+      base '^' D {
+         if ($<terms[0].coefficient>3 < 0) {
+            yyerror("Error: Negative degree!");
+         }
          int sizeOfArray = getSizeOfArrayStruct($<terms>1);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct) * (sizeOfArray + 1));
@@ -665,22 +675,6 @@
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
       }
-
-   C:
-      '(' D ')' {
-         int sizeOfArray = getSizeOfArrayStruct($<terms>2);
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct)*(sizeOfArray + 1));
-         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct) * (sizeOfArray + 1));
-      } |
-      NUMBER {
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
-         memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
-      } |
-      '-' NUMBER {
-         $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
-         memcpy($<terms>$, $<terms>2, sizeof(struct term_struct));
-         $<terms[0].coefficient>$ *= -1;
-      };
 
    D:
       D '+' D {

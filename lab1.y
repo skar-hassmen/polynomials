@@ -61,9 +61,38 @@
          }
          flag = 0;
       }
-      resultArray[resultSize].symbol = '\0';
 
-      return resultArray;
+      int resultCount1 = 0;
+      
+      for (int k = 0; k < sizeArray1 + sizeArray2 + 1; k++) {
+         if (resultArray[k].coefficient != 0) {
+            resultCount1++;
+         }
+      }
+      struct term_struct* resultArrayR = NULL;  
+      if (resultCount1 == 0) {
+         resultArrayR = (struct term_struct*)malloc(sizeof(struct term_struct) * (2));
+         resultArrayR[0].coefficient = 0;
+         resultArrayR[0].degree = 1;
+         resultArrayR[0].symbol = '#';
+
+         resultArrayR[1].symbol = 0;
+      }
+      else {
+         int h = 0;
+         resultArrayR = (struct term_struct*)malloc(sizeof(struct term_struct) * (resultCount1 + 1));
+         for (int k = 0; k < sizeArray1 + sizeArray2 + 1; k++) {
+            if (resultArray[k].coefficient != 0) {
+               memcpy(&resultArrayR[h], &resultArray[k], sizeof(struct term_struct));
+               h++;
+            }
+         }
+      }
+      
+
+      resultArrayR[resultCount1].symbol = '\0';
+
+      return resultArrayR;
    }
 
    struct term_struct* changeSign(int sizeArray, struct term_struct* resultArray) {

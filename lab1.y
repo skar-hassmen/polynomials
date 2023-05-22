@@ -6,20 +6,33 @@
    extern FILE* yyin;
    extern int yylineno;
 
-   char symbol_expr = '\0';
    int MAX_VALUE = 2147483647, MIN_VALUE = -2147483648; 
 
    struct list *begL = NULL;
    struct list *endL = NULL;
    int sizeList = 0;
 
-   void checkOtherSymbols(char ch) {
-      if (symbol_expr == '\0') {
-         symbol_expr = ch;
+   void checkOtherSymbols(struct term_struct* mas, int len) {
+      int fflag = 0;
+      char ch = "@";
+      
+      for (int l = 0; l < len; l++) {
+         if (mas[l].symbol != '#' && mas[l].symbol != '\0' && mas[l].symbol != '!') {
+            ch = mas[l].symbol;
+         }
       }
-      else if (symbol_expr != ch) {
+      if (ch != '@') {
+         for (int i = 1; i < len; i++) {
+         if (mas[i].symbol == '#')
+            continue;
+         if (mas[0].symbol != mas[i].symbol)
+            fflag = 1;
+      }
+      if (fflag == 1) {
          yyerror("Syntax Error: Different symbols of unknowns are introduced in the expression!");
       }
+      }
+      
    }
 
    int getSizeOfArrayStruct(struct term_struct* term) {
@@ -116,8 +129,24 @@
             if (degree == 0)
                temp[sizeTemp].symbol = '#';
             else {
-               if ((term1[i].symbol != '#') || (term2[j].symbol != '#'))
-                  temp[sizeTemp].symbol = symbol_expr;
+               if ((term1[i].symbol != '#') || (term2[j].symbol != '#')) {
+                  int gflag = 0;
+                  for (int l = 0; l < sizeArray1 * sizeArray2; l++) {
+                     if (term1[l].symbol != '#' && term1[l].symbol != '\0' && term1[l].symbol != '!') {
+                        temp[sizeTemp].symbol = term1[l].symbol;
+                        gflag = 1;
+                     }  
+                  }
+                  if (gflag != 1) {
+                     for (int l = 0; l < sizeArray1 * sizeArray2; l++) {
+                        if (term1[l].symbol != '#' && term1[l].symbol != '\0' && term1[l].symbol != '!') {
+                           temp[sizeTemp].symbol = term1[l].symbol;
+                           gflag = 1;
+                        }  
+                     }
+                  }
+                  gflag = 0;
+               }
                else
                   temp[sizeTemp].symbol = '#';
             }
@@ -370,6 +399,8 @@
       } |
       VAR '=' expression {
          int sizeOfArray = getSizeOfArrayStruct($<terms>3);
+         checkOtherSymbols($<terms>3, sizeOfArray);
+         
          if (changeElem($<terms>3, sizeOfArray, $<vars.nameVar>1) == 0) {
             addVarToList($<terms>3, sizeOfArray, $<vars.nameVar>1);
          }
@@ -690,7 +721,6 @@
    base:
       SYMBOL SYMBOL { yyerror("Syntax Error: Two or more unknown variables entered without delimiter operations!"); } | 
       NUMBER SYMBOL {
-         checkOtherSymbols($<terms[0].symbol>2);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          $<terms[0].symbol>1 = ($<terms[0].symbol>2);
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
@@ -700,7 +730,6 @@
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
       } |
       SYMBOL {
-         checkOtherSymbols($<terms[0].symbol>1);
          $<terms>$ = (struct term_struct*)malloc(sizeof(struct term_struct));
          memcpy($<terms>$, $<terms>1, sizeof(struct term_struct));
       }
